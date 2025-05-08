@@ -1,0 +1,47 @@
+{
+  "name": "playground",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "modules": {
+    "playground": {
+      "source": {
+        "type": "local",
+        "path": ".",
+        "installCommand": "npx tsc"
+      }
+    },
+    "api": {
+      "source": {
+        "type": "git",
+        "remote": "git@github.com:AntelopeJS/api-new.git",
+        "branch": "main",
+        "installCommand": ["pnpm i", "npx tsc"]
+      },
+      "config": {
+        "servers": [
+          {
+            "protocol": "http",
+            "port": "5010"
+          }
+        ],
+        "cors": {
+          "allowedOrigins": ["http://localhost:3000", "http://127.0.0.1:3000"]
+        }
+      }
+    },
+    "auth-jwt": {
+      "source": {
+        "type": "local",
+        "path": "..",
+        "installCommand": ["npx tsc"]
+      },
+      "config": {
+        "secret": "dev"
+      }
+    }
+  },
+  "envOverrides": {
+    "JWT_SECRET": "modules.auth-jwt.config.secret"
+  }
+}

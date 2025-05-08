@@ -1,0 +1,20 @@
+import { JWTHandler, JWTHandlerConfig } from './jwt';
+import { ImplementInterface } from '@ajs/core/beta';
+
+let auth: JWTHandler;
+
+export async function construct(config: JWTHandlerConfig): Promise<void> {
+  auth = new JWTHandler(config);
+  await auth.loadKeys();
+  await ImplementInterface(import('@ajs.local/auth/beta'), import('./implementations/auth/beta'));
+}
+
+export function getJWTHandler(): JWTHandler {
+  return auth;
+}
+
+export function destroy(): void {}
+
+export function start(): void {}
+
+export function stop(): void {}

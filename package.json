@@ -1,0 +1,61 @@
+{
+  "name": "@antelopejs/auth-jwt",
+  "version": "0.0.1",
+  "description": "Authentication and authorization module that implements the Auth interface of antelopejs with JWT",
+  "keywords": [
+    "antelope",
+    "jwt",
+    "auth",
+    "authentication",
+    "authorization"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AntelopeJS/auth.git"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@10.6.5",
+  "scripts": {
+    "dev": "ajs project run -w -p playground",
+    "build": "tsc",
+    "prepack": "pnpm run build",
+    "release": "pnpm run lint && pnpm run test && pnpm run prepack && release-it",
+    "format": "prettier --write .",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "test": "echo \"No test specified\""
+  },
+  "antelopeJs": {
+    "exportsPath": "dist/interfaces",
+    "imports": [
+      "core@beta",
+      "api@beta"
+    ],
+    "importsOptional": []
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.25.0",
+    "@release-it/conventional-changelog": "^10.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.14.1",
+    "@types/ws": "^8.18.1",
+    "eslint": "^9.25.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.6",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "release-it": "^19.0.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.30.1",
+    "ws": "^8.18.1"
+  }
+}
