@@ -18,8 +18,8 @@ ajs project modules add @antelopejs/auth-jwt
 
 This module implements the Auth interface it can be integrated with your application to handle user authentication, token generation, verification, and access control. The interface is installed separately to maintain modularity and minimize dependencies.
 
-| Name          | Install command                         |            |
-| ------------- | --------------------------------------- | ---------- |
+| Name          | Install command                         |                                                               |
+| ------------- | --------------------------------------- | ------------------------------------------------------------- |
 | Auth          | `ajs module imports add auth`           | [Documentation](https://github.com/AntelopeJS/interface-auth) |
 
 ## Configuration
