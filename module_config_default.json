@@ -1,0 +1,15 @@
+{
+    "config": {
+        "secret": "your-secret-key",
+        "signKey": "path-to-private-key-file",
+        "verifyKey": "path-to-public-key-file",
+        "signOptions": {
+            "expiresIn": "1h",
+            "algorithm": "RS256"
+        },
+        "verifyOptions": {
+            "ignoreExpiration": false,
+            "algorithms": ["RS256"]
+        }
+    }
+} 
