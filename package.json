@@ -1,6 +1,6 @@
 {
   "name": "@antelopejs/auth-jwt",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Authentication and authorization module that implements the Auth interface of antelopejs with JWT",
   "keywords": [
     "antelope",
