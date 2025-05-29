@@ -11,25 +11,6 @@
         "installCommand": "npx tsc"
       }
     },
-    "api": {
-      "source": {
-        "type": "git",
-        "remote": "git@github.com:AntelopeJS/api-new.git",
-        "branch": "main",
-        "installCommand": ["pnpm i", "npx tsc"]
-      },
-      "config": {
-        "servers": [
-          {
-            "protocol": "http",
-            "port": "5010"
-          }
-        ],
-        "cors": {
-          "allowedOrigins": ["http://localhost:3000", "http://127.0.0.1:3000"]
-        }
-      }
-    },
     "auth-jwt": {
       "source": {
         "type": "local",
@@ -38,6 +19,21 @@
       },
       "config": {
         "secret": "dev"
+      }
+    },
+    "@antelopejs/api": {
+      "source": {
+        "type": "package",
+        "package": "@antelopejs/api",
+        "version": "0.0.1"
+      },
+      "config": {
+        "servers": [
+          {
+            "protocol": "http",
+            "port": "5010"
+          }
+        ]
       }
     }
   },

@@ -13,9 +13,18 @@
   },
   "antelopeJs": {
     "imports": [
-      "core@beta",
-      "auth@beta",
-      "api@beta",
+      {
+        "name": "core@beta",
+        "skipInstall": true
+      },
+      {
+        "name": "api@beta",
+        "skipInstall": true
+      },
+      {
+        "name": "auth@beta",
+        "skipInstall": true
+      },
       "logging@beta"
     ],
     "baseUrl": "dist",
@@ -23,6 +32,7 @@
       "@/*": [
         "*"
       ]
-    }
+    },
+    "importsOptional": []
   }
 }
