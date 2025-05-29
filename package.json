@@ -38,7 +38,10 @@
       "core@beta",
       "api@beta"
     ],
-    "importsOptional": []
+    "importsOptional": [],
+    "defaultConfig": {
+      "secret": "your-secret-key"
+    }
   },
   "dependencies": {
     "jsonwebtoken": "^9.0.2"
