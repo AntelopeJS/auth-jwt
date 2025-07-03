@@ -3,10 +3,10 @@
 # @antelopejs/auth-jwt
 
 <div align="center">
-<a href="https://www.npmjs.com/package/@antelopejs/core"><img alt="NPM version" src="https://img.shields.io/npm/v/@antelopejs/core.svg?style=for-the-badge&labelColor=000000"></a>
-<a href="https://github.com/AntelopeJS/antelopejs/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/npm/l/@antelopejs/core.svg?style=for-the-badge&labelColor=000000"></a>
+<a href="https://www.npmjs.com/package/@antelopejs/auth-jwt"><img alt="NPM version" src="https://img.shields.io/npm/v/@antelopejs/auth-jwt.svg?style=for-the-badge&labelColor=000000"></a>
+<a href="./LICENSE"><img alt="License" src="https://img.shields.io/npm/l/@antelopejs/auth-jwt.svg?style=for-the-badge&labelColor=000000"></a>
 <a href="https://discord.gg/C2G8QW63"><img src="https://img.shields.io/badge/Discord-18181B?logo=discord&style=for-the-badge&color=000000" alt="Discord"></a>
-<a href="https://discord.gg/C2G8QW63"><img src="https://img.shields.io/badge/Docs-18181B?logo=Antelope.JS&style=for-the-badge&color=000000" alt="Documentation"></a>
+<a href="https://antelopejs.com/modules/auth-jwt"><img src="https://img.shields.io/badge/Docs-18181B?style=for-the-badge&color=000000" alt="Documentation"></a>
 </div>
 
 A flexible authentication and authorization module that implements the Auth interface of antelopejs with JWT.
