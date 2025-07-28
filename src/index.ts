@@ -6,7 +6,7 @@ let auth: JWTHandler;
 export async function construct(config: JWTHandlerConfig): Promise<void> {
   auth = new JWTHandler(config);
   await auth.loadKeys();
-  await ImplementInterface(import('@ajs.local/auth/beta'), import('./implementations/auth/beta'));
+  ImplementInterface(await import('@ajs.local/auth/beta'), await import('./implementations/auth/beta'));
 }
 
 export function getJWTHandler(): JWTHandler {
