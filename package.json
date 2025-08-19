@@ -33,7 +33,7 @@
     "prepack": "pnpm run build",
     "prepare": "ajs module imports install",
     "release": "pnpm run lint && pnpm run test && pnpm run prepack && release-it",
-    "test": "echo \"No test specified\"",
+    "test": "pnpm run build && ajs module test",
     "changelog": "changelogen"
   },
   "antelopeJs": {
@@ -45,14 +45,22 @@
     "importsOptional": [],
     "defaultConfig": {
       "secret": "your-secret-key"
+    },
+    "test": {
+      "project": "src/test/antelope.test.js",
+      "folder": "dist/test"
     }
   },
   "dependencies": {
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "chai": "^4.5.0",
+    "mocha": "^11.7.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.25.0",
+    "@types/chai": "^4.3.3",
+    "@types/mocha": "^10.0.10",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.14.1",
     "@types/ws": "^8.18.1",
@@ -62,6 +70,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.6",
     "globals": "^16.0.0",
+    "mongodb-memory-server-core": "^10.1.4",
     "prettier": "^3.5.3",
     "release-it": "^19.0.2",
     "typescript": "^5.8.3",
