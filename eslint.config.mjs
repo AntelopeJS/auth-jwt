@@ -19,7 +19,7 @@ export default tseslint.config(
       'pnpm-lock.yaml',
       'eslint.config.mjs',
       'playground',
-      'testproject.js',
+      'src/test/antelope.test.js',
     ],
   },
   eslint.configs.recommended,
