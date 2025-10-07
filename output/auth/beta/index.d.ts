@@ -215,7 +215,7 @@ export declare function CreateAuthDecorator<R = unknown, T = unknown>(callbacks:
     authenticator?: AuthVerifier<T>;
     authenticatorOptions?: VerifyOptions;
     validator?: AuthValidator<T, R>;
-}): (validator?: AuthValidator<T, R> | undefined) => import("@ajs/core/beta/decorators").ClassDecorator<import("@ajs/core/beta/decorators").Class<any, any[]>> & import("@ajs/core/beta/decorators").PropertyDecorator & import("@ajs/core/beta/decorators").MethodDecorator & import("@ajs/core/beta/decorators").ParameterDecorator;
+}): (validator?: AuthValidator<T, R> | undefined) => import("@ajs/core/beta/decorators").ClassDecorator<import("@ajs/core/beta/decorators").Class<any, any[]>> & import("@ajs/core/beta/decorators").PropertyDecorator & import("@ajs/core/beta/decorators").ParameterDecorator;
 /**
  * Parameter Provider using the default source and signature verification callbacks.
  * This decorator can be applied to parameters, methods, properties, or classes to
@@ -246,4 +246,4 @@ export declare function CreateAuthDecorator<R = unknown, T = unknown>(callbacks:
  *
  * @see {@link CreateAuthDecorator}
  */
-export declare const Authentication: (validator?: AuthValidator<unknown, unknown> | undefined) => import("@ajs/core/beta/decorators").ClassDecorator<import("@ajs/core/beta/decorators").Class<any, any[]>> & import("@ajs/core/beta/decorators").PropertyDecorator & import("@ajs/core/beta/decorators").MethodDecorator & import("@ajs/core/beta/decorators").ParameterDecorator;
+export declare const Authentication: (validator?: AuthValidator<unknown, unknown> | undefined) => import("@ajs/core/beta/decorators").ClassDecorator<import("@ajs/core/beta/decorators").Class<any, any[]>> & import("@ajs/core/beta/decorators").PropertyDecorator & import("@ajs/core/beta/decorators").ParameterDecorator;

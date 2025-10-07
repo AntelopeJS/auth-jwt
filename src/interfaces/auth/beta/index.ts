@@ -1,5 +1,5 @@
 import { InterfaceFunction } from '@ajs/core/beta';
-import { MakeParameterAndMethodAndPropertyAndClassDecorator } from '@ajs/core/beta/decorators';
+import { MakeParameterAndPropertyAndClassDecorator } from '@ajs/core/beta/decorators';
 import { IncomingMessage, ServerResponse } from 'http';
 import { SetParameterProvider } from '@ajs/api/beta';
 
@@ -308,9 +308,9 @@ export function CreateAuthDecorator<R = unknown, T = unknown>(callbacks: {
   const authenticatorOptions = callbacks.authenticatorOptions || {};
   const defaultValidator = callbacks.validator;
 
-  return MakeParameterAndMethodAndPropertyAndClassDecorator((target, key, index, validator?: AuthValidator<T, R>) => {
-    if (typeof index === 'object' || key === undefined) {
-      SetParameterProvider(target, Symbol(''), undefined, (context) =>
+  return MakeParameterAndPropertyAndClassDecorator((target, key, index, validator?: AuthValidator<T, R>) => {
+    if (key === undefined) {
+      SetParameterProvider(target.prototype, Symbol(''), undefined, (context) =>
         internal.CheckAuthentication(
           context.rawRequest,
           context.rawResponse,
