@@ -1,7 +1,9 @@
 import { JWTHandler, JWTHandlerConfig } from './jwt';
 import { ImplementInterface } from '@ajs/core/beta';
 
-let auth: JWTHandler;
+const JWTHandlerNotInitializedError = 'JWT handler is not initialized';
+
+let auth: JWTHandler | undefined;
 
 export async function construct(config: JWTHandlerConfig): Promise<void> {
   auth = new JWTHandler(config);
@@ -10,10 +12,16 @@ export async function construct(config: JWTHandlerConfig): Promise<void> {
 }
 
 export function getJWTHandler(): JWTHandler {
+  if (!auth) {
+    throw new Error(JWTHandlerNotInitializedError);
+  }
+
   return auth;
 }
 
-export function destroy(): void {}
+export function destroy(): void {
+  auth = undefined;
+}
 
 export function start(): void {}
 
