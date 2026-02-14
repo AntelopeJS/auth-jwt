@@ -10,10 +10,17 @@ function createJWTSignOptions(options?: SignOptions): JWTSignOptions | undefined
     return undefined;
   }
 
-  return {
-    expiresIn: options.expiresIn as JWTSignOptions['expiresIn'],
-    notBefore: options.notBefore as JWTSignOptions['notBefore'],
-  };
+  const jwtSignOptions: JWTSignOptions = {};
+
+  if (options.expiresIn !== undefined) {
+    jwtSignOptions.expiresIn = options.expiresIn as NonNullable<JWTSignOptions['expiresIn']>;
+  }
+
+  if (options.notBefore !== undefined) {
+    jwtSignOptions.notBefore = options.notBefore as NonNullable<JWTSignOptions['notBefore']>;
+  }
+
+  return jwtSignOptions;
 }
 
 export namespace internal {

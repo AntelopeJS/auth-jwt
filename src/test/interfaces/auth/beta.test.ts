@@ -43,7 +43,7 @@ describe('auth interface', () => {
     await assert.rejects(() => ValidateRaw('invalid.jwt.token'), isForbiddenError);
   });
 
-  it('extracts token from auth header first', async () => {
+  it('extracts token from auth header first', () => {
     const request = createRequest({
       'x-antelopejs-auth': HeaderToken,
       cookie: `ANTELOPEJS_AUTH=${CookieToken}`,
@@ -52,7 +52,7 @@ describe('auth interface', () => {
     assert.equal(token, HeaderToken);
   });
 
-  it('extracts token from auth cookie when header is absent', async () => {
+  it('extracts token from auth cookie when header is absent', () => {
     const request = createRequest({
       cookie: `foo=bar; ANTELOPEJS_AUTH=${CookieToken}; theme=dark`,
     });

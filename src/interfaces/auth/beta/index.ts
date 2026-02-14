@@ -62,6 +62,10 @@ interface ClassDecoratorTarget {
   prototype: object;
 }
 
+type DecoratorTarget = object;
+type DecoratorKey = string | number | symbol | undefined;
+type DecoratorIndex = number | undefined;
+
 function readAuthHeader(req: IncomingMessage): string | undefined {
   const header = req.headers[AuthHeaderName];
   if (typeof header === 'string') {
@@ -107,7 +111,9 @@ function createSetCookieHeader(token: string, cookieOptions?: CookieOptions): st
   return `${AuthCookieName}=${token}; ${serializedCookieOptions}`;
 }
 
-function resolveAuthDecoratorCallbacks<T, R>(callbacks: AuthDecoratorCallbacks<T, R>): ResolvedAuthDecoratorCallbacks<T, R> {
+function resolveAuthDecoratorCallbacks<T, R>(
+  callbacks: AuthDecoratorCallbacks<T, R>,
+): ResolvedAuthDecoratorCallbacks<T, R> {
   return {
     source: callbacks.source ?? internal.defaultSource,
     authenticator: callbacks.authenticator ?? (internal.defaultAuthenticator as AuthVerifier<T>),
@@ -166,7 +172,7 @@ export namespace internal {
   }
 }
 
-export function ValidateRaw<T = unknown>(token: string, options?: VerifyOptions): Promise<T> {
+export function ValidateRaw<T = unknown>(token?: string, options?: VerifyOptions): Promise<T> {
   return internal.Verify(token, options) as Promise<T>;
 }
 
@@ -189,17 +195,19 @@ export function SignServerResponse(
 export function CreateAuthDecorator<R = unknown, T = unknown>(callbacks: AuthDecoratorCallbacks<T, R>) {
   const resolvedCallbacks = resolveAuthDecoratorCallbacks(callbacks);
 
-  return MakeParameterAndPropertyAndClassDecorator((target, key, index, validator?: AuthValidator<T, R>) => {
-    const authValidator = validator ?? resolvedCallbacks.validator;
-    const provider = createAuthParameterProvider(resolvedCallbacks, authValidator);
+  return MakeParameterAndPropertyAndClassDecorator(
+    (target: DecoratorTarget, key: DecoratorKey, index: DecoratorIndex, validator?: AuthValidator<T, R>) => {
+      const authValidator = validator ?? resolvedCallbacks.validator;
+      const provider = createAuthParameterProvider(resolvedCallbacks, authValidator);
 
-    if (key === undefined) {
-      registerClassParameterProvider(target as ClassDecoratorTarget, provider);
-      return;
-    }
+      if (key === undefined) {
+        registerClassParameterProvider(target as ClassDecoratorTarget, provider);
+        return;
+      }
 
-    SetParameterProvider(target, key, index, provider);
-  });
+      SetParameterProvider(target, key, index, provider);
+    },
+  );
 }
 
 export const Authentication = CreateAuthDecorator({});

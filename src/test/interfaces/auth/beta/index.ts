@@ -9,7 +9,12 @@ interface TestUser {
   password: string;
 }
 
-const testUsers: Record<string, Omit<TestUser, 'id'>> = {
+interface TestUsers {
+  default: Omit<TestUser, 'id'>;
+  alternate: Omit<TestUser, 'id'>;
+}
+
+const testUsers: TestUsers = {
   default: {
     name: 'Bob',
     email: 'bob@email.com',
