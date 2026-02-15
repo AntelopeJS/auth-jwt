@@ -69,6 +69,22 @@ describe('auth interface', () => {
     assert.match(setCookieHeader, /httpOnly=true/);
   });
 
+  it('omits false cookie flags from server response', async () => {
+    const response = createResponseMock();
+    await SignServerResponse(
+      response.serverResponse,
+      { userId: 'user-7' },
+      { expiresIn: '1h' },
+      { httpOnly: false, secure: false, path: '/' },
+    );
+
+    const setCookieHeader = response.getHeader(CookieName);
+    assert.ok(setCookieHeader);
+    assert.doesNotMatch(setCookieHeader, /httpOnly=false/);
+    assert.doesNotMatch(setCookieHeader, /secure=false/);
+    assert.match(setCookieHeader, /path=\//);
+  });
+
   it('checks authentication with validator callback', async () => {
     const token = await SignRaw({ userId: 'user-20', role: 'editor' });
     const request = createRequest({ 'x-antelopejs-auth': token });

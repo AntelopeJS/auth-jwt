@@ -94,7 +94,7 @@ function serializeCookieOptions(cookieOptions?: CookieOptions): string {
     return EmptyString;
   }
 
-  const entries = Object.entries(cookieOptions).filter(([, value]) => value !== undefined);
+  const entries = Object.entries(cookieOptions).filter(([, value]) => value !== undefined && value !== false);
   if (entries.length === 0) {
     return EmptyString;
   }
@@ -149,7 +149,6 @@ export namespace internal {
   export const Sign = InterfaceFunction<SignInterfaceHandler>();
 
   export function defaultSource(req: IncomingMessage, _res: ServerResponse): string | undefined {
-    void _res;
     return readAuthHeader(req) ?? readCookieToken(req);
   }
 
