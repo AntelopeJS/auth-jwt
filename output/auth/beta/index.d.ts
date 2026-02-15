@@ -125,6 +125,13 @@ export interface VerifyOptions {
      */
     maxAge?: string | number;
 }
+type AuthPayload = string | Buffer | object;
+interface AuthDecoratorCallbacks<T, R> {
+    source?: AuthSource;
+    authenticator?: AuthVerifier<T>;
+    authenticatorOptions?: VerifyOptions;
+    validator?: AuthValidator<T, R>;
+}
 /**
  * Verifies the signature of some signed data and returns the data contained therein.
  *
@@ -139,7 +146,7 @@ export interface VerifyOptions {
  * console.log(userData.name);
  * ```
  */
-export declare function ValidateRaw<T = any>(token: string, options?: VerifyOptions): Promise<T>;
+export declare function ValidateRaw<T = unknown>(token?: string, options?: VerifyOptions): Promise<T>;
 /**
  * Signs some data to create an authentication token.
  *
@@ -152,7 +159,7 @@ export declare function ValidateRaw<T = any>(token: string, options?: VerifyOpti
  * const token = SignRaw({ userId: 123, role: 'admin' }, { expiresIn: '24h' });
  * ```
  */
-export declare function SignRaw(data: string | Buffer | object, options?: SignOptions): Promise<string>;
+export declare function SignRaw(data: AuthPayload, options?: SignOptions): Promise<string>;
 /**
  * Signs some data and attaches it to an HTTP Response object as a cookie.
  *
@@ -172,7 +179,7 @@ export declare function SignRaw(data: string | Buffer | object, options?: SignOp
  * );
  * ```
  */
-export declare function SignServerResponse(res: ServerResponse, data: string | Buffer | object, signOptions?: SignOptions, cookieOptions?: CookieOptions): Promise<ServerResponse<IncomingMessage>>;
+export declare function SignServerResponse(res: ServerResponse, data: AuthPayload, signOptions?: SignOptions, cookieOptions?: CookieOptions): Promise<ServerResponse>;
 /**
  * Creates a Parameter Provider using the specified source and signature verification callbacks.
  *
@@ -210,12 +217,7 @@ export declare function SignServerResponse(res: ServerResponse, data: string | B
  * }
  * ```
  */
-export declare function CreateAuthDecorator<R = unknown, T = unknown>(callbacks: {
-    source?: AuthSource;
-    authenticator?: AuthVerifier<T>;
-    authenticatorOptions?: VerifyOptions;
-    validator?: AuthValidator<T, R>;
-}): (validator?: AuthValidator<T, R> | undefined) => import("@ajs/core/beta/decorators").ClassDecorator<import("@ajs/core/beta/decorators").Class<any, any[]>> & import("@ajs/core/beta/decorators").PropertyDecorator & import("@ajs/core/beta/decorators").ParameterDecorator;
+export declare function CreateAuthDecorator<R = unknown, T = unknown>(callbacks: AuthDecoratorCallbacks<T, R>): (validator?: AuthValidator<T, R> | undefined) => import("@ajs/core/beta/decorators").ClassDecorator<import("@ajs/core/beta/decorators").Class<any, any[]>> & import("@ajs/core/beta/decorators").PropertyDecorator & import("@ajs/core/beta/decorators").ParameterDecorator;
 /**
  * Parameter Provider using the default source and signature verification callbacks.
  * This decorator can be applied to parameters, methods, properties, or classes to
@@ -247,3 +249,4 @@ export declare function CreateAuthDecorator<R = unknown, T = unknown>(callbacks:
  * @see {@link CreateAuthDecorator}
  */
 export declare const Authentication: (validator?: AuthValidator<unknown, unknown> | undefined) => import("@ajs/core/beta/decorators").ClassDecorator<import("@ajs/core/beta/decorators").Class<any, any[]>> & import("@ajs/core/beta/decorators").PropertyDecorator & import("@ajs/core/beta/decorators").ParameterDecorator;
+export {};
