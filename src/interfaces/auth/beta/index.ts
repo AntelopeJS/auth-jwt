@@ -99,7 +99,9 @@ function serializeCookieOptions(cookieOptions?: CookieOptions): string {
     return EmptyString;
   }
 
-  return entries.map(([key, value]) => `${key}=${String(value)}`).join(CookieOptionSeparator);
+  return entries
+    .map(([key, value]) => (typeof value === 'boolean' ? key : `${key}=${String(value)}`))
+    .join(CookieOptionSeparator);
 }
 
 function createSetCookieHeader(token: string, cookieOptions?: CookieOptions): string {

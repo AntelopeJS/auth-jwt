@@ -34,10 +34,20 @@ function resolveJWTHandlerConfig(config: JWTHandlerConfig): ResolvedJWTHandlerCo
     throw new Error('Invalid JWT config');
   }
 
+  if (hasSecret) {
+    return {
+      loadFromDisk: false,
+      signKey: config.secret as string,
+      verifyKey: config.secret as string,
+      signOptions: config.signOptions ?? {},
+      verifyOptions: config.verifyOptions ?? {},
+    };
+  }
+
   return {
-    loadFromDisk: !hasSecret,
-    signKey: config.signKey ?? config.secret ?? '',
-    verifyKey: config.verifyKey ?? config.secret ?? '',
+    loadFromDisk: true,
+    signKey: config.signKey as string,
+    verifyKey: config.verifyKey as string,
     signOptions: config.signOptions ?? {},
     verifyOptions: config.verifyOptions ?? {},
   };
