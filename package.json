@@ -46,7 +46,7 @@
       "secret": "your-secret-key"
     },
     "test": {
-      "project": "dist/test/antelope.test.js",
+      "project": "src/test/antelope.test.js",
       "folder": "dist/test"
     }
   },
