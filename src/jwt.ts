@@ -1,162 +1,127 @@
-import { sign, verify, SignOptions, VerifyOptions } from 'jsonwebtoken';
-import { HTTPResult } from '@ajs/api/beta';
 import { readFile } from 'fs/promises';
+import { sign, verify, type SignOptions, type VerifyOptions } from 'jsonwebtoken';
+import { HTTPResult } from '@ajs/api/beta';
 
-/**
- * Configuration options for the JWT authentication handler.
- *
- * You can either provide a single secret key used for both signing and verification,
- * or separate keys for signing and verification (useful for asymmetric algorithms).
- *
- * @property secret - A single key used for both signing and verification (symmetric)
- * @property signKey - The key or file path used for signing tokens
- * @property verifyKey - The key or file path used for verifying tokens
- * @property signOptions - Options passed to the JWT sign function
- * @property verifyOptions - Options passed to the JWT verify function
- *
- * @example
- * ```typescript
- * // Using a single secret key:
- * const jwtConfig: JWTHandlerConfig = {
- *   secret: 'your-secret-key',
- *   signOptions: { expiresIn: '1d' },
- *   verifyOptions: { ignoreExpiration: false }
- * };
- *
- * // Using separate keys (for RSA algorithm):
- * const jwtAsymmetricConfig: JWTHandlerConfig = {
- *   signKey: '/path/to/private.key',
- *   verifyKey: '/path/to/public.key',
- *   signOptions: { algorithm: 'RS256' }
- * };
- * ```
- */
+const ForbiddenStatusCode = 403;
+const UnauthorizedStatusCode = 401;
+const UnauthorizedMessage = 'Unauthorized';
+const ForbiddenMessagePrefix = 'Forbidden';
+const JWTSignFailureMessage = 'Unable to sign JWT';
+
 export interface JWTHandlerConfig {
   secret?: string;
   signKey?: string;
   verifyKey?: string;
-
   signOptions?: SignOptions;
   verifyOptions?: VerifyOptions;
 }
 
-/**
- * Handler for JSON Web Token (JWT) operations including signing and verification.
- *
- * This class provides methods to generate and verify JWT tokens for authentication
- * purposes. It supports both symmetric (single secret key) and asymmetric (public/private key pair)
- * cryptographic methods.
- *
- * @example
- * ```typescript
- * // Create a JWT handler
- * const jwtAuth = new JWTHandler({
- *   secret: process.env.JWT_SECRET,
- *   signOptions: { expiresIn: '12h' }
- * });
- *
- * // Generate a token
- * const token = await jwtAuth.sign({ userId: 123, role: 'admin' });
- *
- * // Verify a token
- * try {
- *   const payload = await jwtAuth.verify(token);
- *   console.log(payload.userId); // 123
- * } catch (error) {
- *   // Handle invalid token
- * }
- * ```
- */
+export type JWTSignPayload = string | Buffer | object;
+
+interface ResolvedJWTHandlerConfig {
+  loadFromDisk: boolean;
+  signKey: string;
+  verifyKey: string;
+  signOptions: SignOptions;
+  verifyOptions: VerifyOptions;
+}
+
+function resolveJWTHandlerConfig(config: JWTHandlerConfig): ResolvedJWTHandlerConfig {
+  const hasSecret = typeof config.secret === 'string';
+  const hasSignAndVerifyKeys = typeof config.signKey === 'string' && typeof config.verifyKey === 'string';
+
+  if (!hasSecret && !hasSignAndVerifyKeys) {
+    throw new Error('Invalid JWT config');
+  }
+
+  if (hasSecret) {
+    return {
+      loadFromDisk: false,
+      signKey: config.secret as string,
+      verifyKey: config.secret as string,
+      signOptions: config.signOptions ?? {},
+      verifyOptions: config.verifyOptions ?? {},
+    };
+  }
+
+  return {
+    loadFromDisk: true,
+    signKey: config.signKey as string,
+    verifyKey: config.verifyKey as string,
+    signOptions: config.signOptions ?? {},
+    verifyOptions: config.verifyOptions ?? {},
+  };
+}
+
+function mergeSignOptions(baseOptions: SignOptions, overrideOptions?: SignOptions): SignOptions {
+  if (!overrideOptions) {
+    return baseOptions;
+  }
+
+  return { ...baseOptions, ...overrideOptions };
+}
+
+function mergeVerifyOptions(baseOptions: VerifyOptions, overrideOptions?: VerifyOptions): VerifyOptions {
+  if (!overrideOptions) {
+    return baseOptions;
+  }
+
+  return { ...baseOptions, ...overrideOptions };
+}
+
 export class JWTHandler {
-  private loadFromDisk = false;
+  private loadFromDisk: boolean;
   private signKey: string | Buffer;
   private verifyKey: string | Buffer;
   private signOptions: SignOptions;
   private verifyOptions: VerifyOptions;
 
-  /**
-   * Creates a new JWT handler with the given configuration.
-   *
-   * @param config - Configuration options for the JWT handler
-   * @throws Error if neither a secret nor both signKey and verifyKey are provided
-   */
   constructor(config: JWTHandlerConfig) {
-    if (!config.secret && (!config.signKey || !config.verifyKey)) {
-      throw new Error('Invalid JWT config');
-    }
-    if (!config.secret) {
-      this.loadFromDisk = true;
-    }
-    this.signKey = (config.signKey || config.secret)!;
-    this.verifyKey = (config.verifyKey || config.secret)!;
-    this.signOptions = config.signOptions || {};
-    this.verifyOptions = config.verifyOptions || {};
+    const resolvedConfig = resolveJWTHandlerConfig(config);
+    this.loadFromDisk = resolvedConfig.loadFromDisk;
+    this.signKey = resolvedConfig.signKey;
+    this.verifyKey = resolvedConfig.verifyKey;
+    this.signOptions = resolvedConfig.signOptions;
+    this.verifyOptions = resolvedConfig.verifyOptions;
   }
 
-  /**
-   * Loads the signing and verification keys from the filesystem.
-   * Only called when file paths are provided instead of key strings.
-   *
-   * @returns A promise that resolves when keys are loaded
-   */
-  async loadKeys() {
-    if (this.loadFromDisk) {
-      this.signKey = await readFile(this.signKey);
-      this.verifyKey = await readFile(this.verifyKey);
+  async loadKeys(): Promise<void> {
+    if (!this.loadFromDisk) {
+      return;
     }
+
+    const [loadedSignKey, loadedVerifyKey] = await Promise.all([readFile(this.signKey), readFile(this.verifyKey)]);
+    this.signKey = loadedSignKey;
+    this.verifyKey = loadedVerifyKey;
   }
 
-  /**
-   * Verifies a JWT token and returns its payload.
-   *
-   * @param data - The JWT token to verify
-   * @param options - Optional verification options that override the defaults
-   * @returns A promise resolving to the decoded token payload
-   * @throws HTTPResult with 401 status if no token is provided
-   * @throws HTTPResult with 403 status if the token is invalid
-   *
-   * @example
-   * ```typescript
-   * try {
-   *   const userData = await jwtHandler.verify(token, { maxAge: '30m' });
-   *   // Token is valid, use userData
-   * } catch (error) {
-   *   // Handle authentication error
-   * }
-   * ```
-   */
-  verify(data: string | undefined, options?: VerifyOptions): Promise<any> {
-    return data
-      ? new Promise((resolve, reject) =>
-          verify(data, this.verifyKey, { ...this.verifyOptions, ...(options || {}) }, (err, encoded) =>
-            err ? reject(new HTTPResult(403, `Forbidden (${err.message})`)) : resolve(encoded),
-          ),
-        )
-      : Promise.reject(new HTTPResult(401, 'Unauthorized'));
+  verify<T = unknown>(data: string | undefined, options?: VerifyOptions): Promise<T> {
+    if (!data) {
+      return Promise.reject(new HTTPResult(UnauthorizedStatusCode, UnauthorizedMessage));
+    }
+
+    return new Promise((resolve, reject) => {
+      verify(data, this.verifyKey, mergeVerifyOptions(this.verifyOptions, options), (error, payload) => {
+        if (error) {
+          reject(new HTTPResult(ForbiddenStatusCode, `${ForbiddenMessagePrefix} (${error.message})`));
+          return;
+        }
+
+        resolve(payload as T);
+      });
+    });
   }
 
-  /**
-   * Signs data to create a JWT token.
-   *
-   * @param data - The payload to include in the token
-   * @param options - Optional signing options that override the defaults
-   * @returns A promise resolving to the signed JWT token string
-   * @throws Any error that occurs during the signing process
-   *
-   * @example
-   * ```typescript
-   * const token = await jwtHandler.sign(
-   *   { userId: 123, permissions: ['read', 'write'] },
-   *   { expiresIn: '2h' }
-   * );
-   * // Use the token for authentication
-   * ```
-   */
-  sign(data: string | Buffer | object, options?: SignOptions): Promise<string> {
-    return new Promise((resolve, reject) =>
-      sign(data, this.signKey, { ...this.signOptions, ...(options || {}) }, (err, encoded) =>
-        err ? reject(err) : resolve(encoded!),
-      ),
-    );
+  sign(data: JWTSignPayload, options?: SignOptions): Promise<string> {
+    return new Promise((resolve, reject) => {
+      sign(data, this.signKey, mergeSignOptions(this.signOptions, options), (error, token) => {
+        if (error || !token) {
+          reject(error ?? new Error(JWTSignFailureMessage));
+          return;
+        }
+
+        resolve(token);
+      });
+    });
   }
 }

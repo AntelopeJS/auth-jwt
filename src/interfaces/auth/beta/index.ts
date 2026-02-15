@@ -3,57 +3,11 @@ import { MakeParameterAndPropertyAndClassDecorator } from '@ajs/core/beta/decora
 import { IncomingMessage, ServerResponse } from 'http';
 import { SetParameterProvider } from '@ajs/api/beta';
 
-/**
- * @internal
- */
-export namespace internal {
-  export const Verify = InterfaceFunction<(data?: string, options?: VerifyOptions) => any>();
-  export const Sign = InterfaceFunction<(data: string | Buffer | object, options?: SignOptions) => string>();
-
-  export function defaultSource(req: IncomingMessage): string | undefined {
-    if (req.headers['x-antelopejs-auth']) {
-      return req.headers['x-antelopejs-auth'] as string;
-    }
-    if (req.headers['cookie']) {
-      const match = (' ' + req.headers['cookie']).match(/ ANTELOPEJS_AUTH=([^;]*)/);
-      if (match) {
-        return match[1];
-      }
-    }
-    return undefined;
-  }
-
-  export const defaultAuthenticator = ValidateRaw as AuthVerifier<any>;
-
-  /**
-   * Verifies the signature of signed data attached to the HTTP request and returns the data contained therein.
-   *
-   * @template T - The type of data after verification
-   * @template R - The type of data after validation
-   * @param req - HTTP Request
-   * @param res - HTTP Response
-   * @param source - Callback to retrieve the signed data from the request
-   * @param authenticator - Callback to verify the signature
-   * @param authenticatorOptions - Verifier options
-   * @param validator - Custom validator callback
-   * @returns The authenticated and validated data
-   */
-  export async function CheckAuthentication<T = unknown, R = unknown>(
-    req: IncomingMessage,
-    res: ServerResponse,
-    source: AuthSource | undefined = undefined,
-    authenticator: AuthVerifier<T> | undefined = undefined,
-    authenticatorOptions: VerifyOptions | undefined = undefined,
-    validator: AuthValidator<T, R> | undefined = undefined,
-  ) {
-    const data = await (authenticator || defaultAuthenticator)(
-      (source || defaultSource)(req, res),
-      authenticatorOptions,
-    );
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return validator ? await validator(data as T) : data;
-  }
-}
+const AuthHeaderName = 'x-antelopejs-auth';
+const AuthCookieName = 'ANTELOPEJS_AUTH';
+const EmptyString = '';
+const CookieOptionSeparator = '; ';
+const ClassParameterProviderSymbolDescription = 'authentication-class-provider';
 
 /**
  * Function type that extracts authentication data from HTTP request.
@@ -68,7 +22,6 @@ export namespace internal {
  * ```
  */
 export type AuthSource = (req: IncomingMessage, res: ServerResponse) => string | undefined;
-
 /**
  * Function type that verifies authentication data and returns parsed content.
  *
@@ -84,7 +37,6 @@ export type AuthSource = (req: IncomingMessage, res: ServerResponse) => string |
  * ```
  */
 export type AuthVerifier<T = unknown> = (data?: string, options?: VerifyOptions) => Promise<T> | T;
-
 /**
  * Function type that performs additional validation on verified authentication data.
  *
@@ -190,6 +142,161 @@ export interface VerifyOptions {
   maxAge?: string | number;
 }
 
+type AuthPayload = string | Buffer | object;
+type VerifyInterfaceHandler = (data?: string, options?: VerifyOptions) => Promise<unknown>;
+type SignInterfaceHandler = (data: AuthPayload, options?: SignOptions) => Promise<string>;
+type AuthParameterProvider<T, R> = (context: AuthenticationContext) => Promise<T | R>;
+
+interface AuthenticationContext {
+  rawRequest: IncomingMessage;
+  rawResponse: ServerResponse;
+}
+
+interface AuthDecoratorCallbacks<T, R> {
+  source?: AuthSource;
+  authenticator?: AuthVerifier<T>;
+  authenticatorOptions?: VerifyOptions;
+  validator?: AuthValidator<T, R>;
+}
+
+interface ResolvedAuthDecoratorCallbacks<T, R> {
+  source: AuthSource;
+  authenticator: AuthVerifier<T>;
+  authenticatorOptions: VerifyOptions;
+  validator: AuthValidator<T, R> | undefined;
+}
+
+interface ClassDecoratorTarget {
+  prototype: object;
+}
+
+type DecoratorTarget = object;
+type DecoratorKey = string | number | symbol | undefined;
+type DecoratorIndex = number | undefined;
+
+function readAuthHeader(req: IncomingMessage): string | undefined {
+  const header = req.headers[AuthHeaderName];
+  if (typeof header === 'string') {
+    return header;
+  }
+
+  if (!header || header.length === 0) {
+    return undefined;
+  }
+
+  return header[0];
+}
+
+function readCookieToken(req: IncomingMessage): string | undefined {
+  const cookieHeader = req.headers.cookie;
+  if (!cookieHeader) {
+    return undefined;
+  }
+
+  const cookieMatch = ` ${cookieHeader}`.match(/ ANTELOPEJS_AUTH=([^;]*)/);
+  return cookieMatch?.[1];
+}
+
+function serializeCookieOptions(cookieOptions?: CookieOptions): string {
+  if (!cookieOptions) {
+    return EmptyString;
+  }
+
+  const entries = Object.entries(cookieOptions).filter(([, value]) => value !== undefined && value !== false);
+  if (entries.length === 0) {
+    return EmptyString;
+  }
+
+  return entries
+    .map(([key, value]) => (typeof value === 'boolean' ? key : `${key}=${String(value)}`))
+    .join(CookieOptionSeparator);
+}
+
+function createSetCookieHeader(token: string, cookieOptions?: CookieOptions): string {
+  const serializedCookieOptions = serializeCookieOptions(cookieOptions);
+  if (!serializedCookieOptions) {
+    return `${AuthCookieName}=${token}`;
+  }
+
+  return `${AuthCookieName}=${token}; ${serializedCookieOptions}`;
+}
+
+function resolveAuthDecoratorCallbacks<T, R>(
+  callbacks: AuthDecoratorCallbacks<T, R>,
+): ResolvedAuthDecoratorCallbacks<T, R> {
+  return {
+    source: callbacks.source ?? internal.defaultSource,
+    authenticator: callbacks.authenticator ?? (internal.defaultAuthenticator as AuthVerifier<T>),
+    authenticatorOptions: callbacks.authenticatorOptions ?? {},
+    validator: callbacks.validator,
+  };
+}
+
+function createAuthParameterProvider<T, R>(
+  callbacks: ResolvedAuthDecoratorCallbacks<T, R>,
+  validator?: AuthValidator<T, R>,
+): AuthParameterProvider<T, R> {
+  return (context: AuthenticationContext) =>
+    internal.CheckAuthentication(
+      context.rawRequest,
+      context.rawResponse,
+      callbacks.source,
+      callbacks.authenticator,
+      callbacks.authenticatorOptions,
+      validator,
+    );
+}
+
+function registerClassParameterProvider<T, R>(
+  target: ClassDecoratorTarget,
+  provider: AuthParameterProvider<T, R>,
+): void {
+  SetParameterProvider(target.prototype, Symbol(ClassParameterProviderSymbolDescription), undefined, provider);
+}
+
+/**
+ * @internal
+ */
+export namespace internal {
+  export const Verify = InterfaceFunction<VerifyInterfaceHandler>();
+  export const Sign = InterfaceFunction<SignInterfaceHandler>();
+
+  export function defaultSource(req: IncomingMessage, _res: ServerResponse): string | undefined {
+    return readAuthHeader(req) ?? readCookieToken(req);
+  }
+
+  export const defaultAuthenticator: AuthVerifier<unknown> = ValidateRaw;
+
+  /**
+   * Verifies the signature of signed data attached to the HTTP request and returns the data contained therein.
+   *
+   * @template T - The type of data after verification
+   * @template R - The type of data after validation
+   * @param req - HTTP Request
+   * @param res - HTTP Response
+   * @param source - Callback to retrieve the signed data from the request
+   * @param authenticator - Callback to verify the signature
+   * @param authenticatorOptions - Verifier options
+   * @param validator - Custom validator callback
+   * @returns The authenticated and validated data
+   */
+  export async function CheckAuthentication<T = unknown, R = unknown>(
+    req: IncomingMessage,
+    res: ServerResponse,
+    source: AuthSource = defaultSource,
+    authenticator: AuthVerifier<T> = defaultAuthenticator as AuthVerifier<T>,
+    authenticatorOptions: VerifyOptions = {},
+    validator?: AuthValidator<T, R>,
+  ): Promise<T | R> {
+    const verifiedData = await authenticator(source(req, res), authenticatorOptions);
+    if (!validator) {
+      return verifiedData;
+    }
+
+    return validator(verifiedData);
+  }
+}
+
 /**
  * Verifies the signature of some signed data and returns the data contained therein.
  *
@@ -204,8 +311,8 @@ export interface VerifyOptions {
  * console.log(userData.name);
  * ```
  */
-export function ValidateRaw<T = any>(token: string, options?: VerifyOptions): Promise<T> {
-  return internal.Verify(token, options);
+export function ValidateRaw<T = unknown>(token?: string, options?: VerifyOptions): Promise<T> {
+  return internal.Verify(token, options) as Promise<T>;
 }
 
 /**
@@ -220,7 +327,7 @@ export function ValidateRaw<T = any>(token: string, options?: VerifyOptions): Pr
  * const token = SignRaw({ userId: 123, role: 'admin' }, { expiresIn: '24h' });
  * ```
  */
-export function SignRaw(data: string | Buffer | object, options?: SignOptions) {
+export function SignRaw(data: AuthPayload, options?: SignOptions): Promise<string> {
   return internal.Sign(data, options);
 }
 
@@ -245,19 +352,14 @@ export function SignRaw(data: string | Buffer | object, options?: SignOptions) {
  */
 export function SignServerResponse(
   res: ServerResponse,
-  data: string | Buffer | object,
+  data: AuthPayload,
   signOptions?: SignOptions,
   cookieOptions?: CookieOptions,
-) {
-  const opts = cookieOptions
-    ? Object.keys(cookieOptions)
-        .map((key) => `${key}=${cookieOptions[key as keyof typeof cookieOptions]}`)
-        .join('; ')
-    : '';
-
-  return SignRaw(data, signOptions).then((data: string) =>
-    res.setHeader('Set-Cookie', `ANTELOPEJS_AUTH=${data}; ${opts}`),
-  );
+): Promise<ServerResponse> {
+  return SignRaw(data, signOptions).then((token) => {
+    res.setHeader('Set-Cookie', createSetCookieHeader(token, cookieOptions));
+    return res;
+  });
 }
 
 /**
@@ -297,42 +399,22 @@ export function SignServerResponse(
  * }
  * ```
  */
-export function CreateAuthDecorator<R = unknown, T = unknown>(callbacks: {
-  source?: AuthSource;
-  authenticator?: AuthVerifier<T>;
-  authenticatorOptions?: VerifyOptions;
-  validator?: AuthValidator<T, R>;
-}) {
-  const source = callbacks.source || <AuthSource>internal.defaultSource;
-  const authenticator = callbacks.authenticator || <AuthVerifier<T>>internal.defaultAuthenticator;
-  const authenticatorOptions = callbacks.authenticatorOptions || {};
-  const defaultValidator = callbacks.validator;
+export function CreateAuthDecorator<R = unknown, T = unknown>(callbacks: AuthDecoratorCallbacks<T, R>) {
+  const resolvedCallbacks = resolveAuthDecoratorCallbacks(callbacks);
 
-  return MakeParameterAndPropertyAndClassDecorator((target, key, index, validator?: AuthValidator<T, R>) => {
-    if (key === undefined) {
-      SetParameterProvider(target.prototype, Symbol(''), undefined, (context) =>
-        internal.CheckAuthentication(
-          context.rawRequest,
-          context.rawResponse,
-          source,
-          authenticator,
-          authenticatorOptions,
-          validator || defaultValidator,
-        ),
-      );
-    } else {
-      SetParameterProvider(target, key, index, (context) =>
-        internal.CheckAuthentication(
-          context.rawRequest,
-          context.rawResponse,
-          source,
-          authenticator,
-          authenticatorOptions,
-          validator || defaultValidator,
-        ),
-      );
-    }
-  });
+  return MakeParameterAndPropertyAndClassDecorator(
+    (target: DecoratorTarget, key: DecoratorKey, index: DecoratorIndex, validator?: AuthValidator<T, R>) => {
+      const authValidator = validator ?? resolvedCallbacks.validator;
+      const provider = createAuthParameterProvider(resolvedCallbacks, authValidator);
+
+      if (key === undefined) {
+        registerClassParameterProvider(target as ClassDecoratorTarget, provider);
+        return;
+      }
+
+      SetParameterProvider(target, key, index, provider);
+    },
+  );
 }
 
 /**

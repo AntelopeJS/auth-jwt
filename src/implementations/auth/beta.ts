@@ -1,13 +1,34 @@
-import { SignOptions as JWTSignOptions, VerifyOptions } from 'jsonwebtoken';
+import { type SignOptions as JWTSignOptions, type VerifyOptions as JWTVerifyOptions } from 'jsonwebtoken';
 import { getJWTHandler } from '../../index';
-import { SignOptions } from '@ajs.local/auth/beta';
+import { type SignOptions } from '@ajs.local/auth/beta';
+import { type JWTSignPayload } from '../../jwt';
+
+type AuthPayload = unknown;
+
+function createJWTSignOptions(options?: SignOptions): JWTSignOptions | undefined {
+  if (!options) {
+    return undefined;
+  }
+
+  const jwtSignOptions: JWTSignOptions = {};
+
+  if (options.expiresIn !== undefined) {
+    jwtSignOptions.expiresIn = options.expiresIn as NonNullable<JWTSignOptions['expiresIn']>;
+  }
+
+  if (options.notBefore !== undefined) {
+    jwtSignOptions.notBefore = options.notBefore as NonNullable<JWTSignOptions['notBefore']>;
+  }
+
+  return jwtSignOptions;
+}
 
 export namespace internal {
-  export const Verify = (data?: string, options?: VerifyOptions) => {
-    return getJWTHandler().verify(data, options);
-  };
+  export function Verify<T = AuthPayload>(data?: string, options?: JWTVerifyOptions): Promise<T> {
+    return getJWTHandler().verify<T>(data, options);
+  }
 
-  export const Sign = (data: string | Buffer | object, options?: SignOptions) => {
-    return getJWTHandler().sign(data, options as JWTSignOptions);
-  };
+  export function Sign(data: JWTSignPayload, options?: SignOptions): Promise<string> {
+    return getJWTHandler().sign(data, createJWTSignOptions(options));
+  }
 }
