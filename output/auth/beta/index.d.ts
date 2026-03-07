@@ -1,4 +1,4 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import type { IncomingMessage, ServerResponse } from "node:http";
 /**
  * Function type that extracts authentication data from HTTP request.
  *
