@@ -1,28 +1,28 @@
-const { MongoMemoryServer } = require('mongodb-memory-server-core');
+const { MongoMemoryServer } = require("mongodb-memory-server-core");
 
 let mongod;
 
-module.exports.setup = async function () {
+module.exports.setup = async () => {
   mongod = await MongoMemoryServer.create();
 
   return {
-    cacheFolder: '.antelope/cache',
+    cacheFolder: ".antelope/cache",
     modules: {
       local: {
         source: {
-          type: 'local',
-          path: '.',
+          type: "local",
+          path: ".",
         },
         config: {
-          secret: 'test-secret-key-for-jwt'
-        }
+          secret: "test-secret-key-for-jwt",
+        },
       },
       mongodb: {
         source: {
-          type: 'git',
-          remote: 'https://github.com/AntelopeJS/mongodb.git',
-          branch: 'main',
-          installCommand: ['pnpm i', 'npx tsc'],
+          type: "git",
+          remote: "https://github.com/AntelopeJS/mongodb.git",
+          branch: "main",
+          installCommand: ["pnpm i", "npx tsc"],
         },
         config: {
           url: mongod.getUri(),
@@ -30,24 +30,24 @@ module.exports.setup = async function () {
       },
       database_decorators: {
         source: {
-          type: 'git',
-          remote: 'https://github.com/AntelopeJS/database-decorators.git',
-          branch: 'main',
-          installCommand: ['pnpm i', 'npx tsc'],
+          type: "git",
+          remote: "https://github.com/AntelopeJS/database-decorators.git",
+          branch: "main",
+          installCommand: ["pnpm i", "npx tsc"],
         },
       },
       api: {
         source: {
-          type: 'git',
-          remote: 'https://github.com/AntelopeJS/api.git',
-          branch: 'main',
-          installCommand: ['pnpm i', 'npx tsc'],
+          type: "git",
+          remote: "https://github.com/AntelopeJS/api.git",
+          branch: "main",
+          installCommand: ["pnpm i", "npx tsc"],
         },
         config: {
           servers: [
             {
-              protocol: 'http',
-              port: '5010',
+              protocol: "http",
+              port: "5010",
             },
           ],
         },
@@ -56,6 +56,6 @@ module.exports.setup = async function () {
   };
 };
 
-module.exports.cleanup = async function () {
+module.exports.cleanup = async () => {
   await mongod.stop();
 };
