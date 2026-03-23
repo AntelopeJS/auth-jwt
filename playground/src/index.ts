@@ -1,5 +1,5 @@
-import { SignRaw, ValidateRaw } from "@ajs/auth/beta";
-import { Logging } from "@ajs/logging/beta";
+import { SignRaw, ValidateRaw } from "@antelopejs/interface-auth";
+import { Logging } from "@antelopejs/interface-core/logging";
 
 export function construct(config: unknown): void {
   // Set things up when module is loaded
@@ -30,7 +30,9 @@ export async function start(): Promise<void> {
     Logging.Debug("Generated JWT token:", token);
 
     // Validate the token and retrieve the data
-    const validatedData = await ValidateRaw(token);
+    const validatedData = await ValidateRaw<{ userId: number; role: string }>(
+      token,
+    );
 
     Logging.Debug("Validated token data:", JSON.stringify(validatedData));
 

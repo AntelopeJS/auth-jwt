@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { HTTPResult } from "@ajs/api/beta";
+import { HTTPResult } from "@antelopejs/interface-api";
 import {
   type SignOptions,
   sign,

@@ -1,4 +1,4 @@
-import type { SignOptions } from "@ajs.local/auth/beta";
+import type { SignOptions } from "@antelopejs/interface-auth";
 import type {
   SignOptions as JWTSignOptions,
   VerifyOptions as JWTVerifyOptions,

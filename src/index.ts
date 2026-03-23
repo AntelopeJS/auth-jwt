@@ -1,4 +1,4 @@
-import { ImplementInterface } from "@ajs/core/beta";
+import { ImplementInterface } from "@antelopejs/interface-core";
 import { JWTHandler, type JWTHandlerConfig } from "./jwt";
 
 const JWTHandlerNotInitializedError = "JWT handler is not initialized";
@@ -8,9 +8,9 @@ let auth: JWTHandler | undefined;
 export async function construct(config: JWTHandlerConfig): Promise<void> {
   auth = new JWTHandler(config);
   await auth.loadKeys();
-  await ImplementInterface(
-    await import("@ajs.local/auth/beta"),
-    await import("./implementations/auth/beta"),
+  void ImplementInterface(
+    await import("@antelopejs/interface-auth"),
+    await import("./implementations/auth"),
   );
 }
 
