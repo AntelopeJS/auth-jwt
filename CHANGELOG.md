@@ -1,5 +1,30 @@
 # Changelog
 
+## v1.0.0
+
+[compare changes](https://github.com/AntelopeJS/auth/compare/v0.1.3...v1.0.0)
+
+### 📦 Build
+
+- Replace rm -rf with rimraf ([#11](https://github.com/AntelopeJS/auth/pull/11))
+
+### 🏡 Chore
+
+- Replicate ai agent config files (.agents/.claude) ([#12](https://github.com/AntelopeJS/auth/pull/12))
+- Auth jwt strict ts interface tests ([#13](https://github.com/AntelopeJS/auth/pull/13))
+- Simplify CI workflow triggers and update AGENTS.md ([539002f](https://github.com/AntelopeJS/auth/commit/539002f))
+- Migrate from eslint and prettier to biome ([#14](https://github.com/AntelopeJS/auth/pull/14))
+- Migrate from local beta interfaces to published @antelopejs packages ([2bdac86](https://github.com/AntelopeJS/auth/commit/2bdac86))
+
+### 🤖 CI
+
+- Remove test:coverage step from CI workflow ([ab82ced](https://github.com/AntelopeJS/auth/commit/ab82ced))
+
+### ❤️ Contributors
+
+- Antony Rizzitelli <upd4ting@gmail.com>
+- Glastis ([@Glastis](http://github.com/Glastis))
+
 ## v0.1.3
 
 [compare changes](https://github.com/AntelopeJS/auth/compare/v0.1.1...v0.1.3)
