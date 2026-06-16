@@ -24,7 +24,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/api",
-        version: "1.0.0",
+        version: "1.1.1",
       },
       config: {
         servers: [
