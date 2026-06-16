@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.1
+
+[compare changes](https://github.com/AntelopeJS/auth/compare/v1.0.0...v1.0.1)
+
+### 💅 Refactors
+
+- Switch playground and test modules from local to npm packages ([de88b9b](https://github.com/AntelopeJS/auth/commit/de88b9b))
+
+### 🏡 Chore
+
+- Update dependencies ([53da362](https://github.com/AntelopeJS/auth/commit/53da362))
+
+### ❤️ Contributors
+
+- Antony Rizzitelli <upd4ting@gmail.com>
+
 ## v1.0.0
 
 [compare changes](https://github.com/AntelopeJS/auth/compare/v0.1.3...v1.0.0)
