@@ -42,9 +42,9 @@
     "test": "src/test/antelope.test.ts"
   },
   "dependencies": {
-    "@antelopejs/interface-api": "^0.0.8",
+    "@antelopejs/interface-api": ">=0.0.8 <1.0.0",
     "@antelopejs/interface-auth": "^0.0.5",
-    "@antelopejs/interface-core": "^0.0.6",
+    "@antelopejs/interface-core": ">=0.0.6 <1.0.0",
     "chai": "^4.5.0",
     "jsonwebtoken": "^9.0.3",
     "mocha": "^11.7.5"
