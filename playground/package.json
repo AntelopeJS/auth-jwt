@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@antelopejs/interface-auth": "^0.0.5",
-    "@antelopejs/interface-core": "^0.0.6"
+    "@antelopejs/interface-core": ">=0.0.6 <1.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.5.7",
