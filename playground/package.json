@@ -7,7 +7,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@antelopejs/interface-auth": "^0.0.5",
+    "@antelopejs/interface-auth": ">=0.0.5 <1.0.0",
     "@antelopejs/interface-core": ">=0.0.6 <1.0.0"
   },
   "devDependencies": {
