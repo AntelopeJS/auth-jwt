@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.0.3
+
+[compare changes](https://github.com/AntelopeJS/auth/compare/v1.0.2...v1.0.3)
+
+### 🩹 Fixes
+
+- **deps:** Support canonical auth interface packages ([#18](https://github.com/AntelopeJS/auth/pull/18))
+
+### ❤️ Contributors
+
+- Antony Rizzitelli <upd4ting@gmail.com>
+
 ## v1.0.2
 
 [compare changes](https://github.com/AntelopeJS/auth/compare/v1.0.1...v1.0.2)
