@@ -3,6 +3,7 @@ import type {
   SignOptions as JWTSignOptions,
   VerifyOptions as JWTVerifyOptions,
 } from "jsonwebtoken";
+
 import { getJWTHandler } from "../../index";
 import type { JWTSignPayload } from "../../jwt";
 
