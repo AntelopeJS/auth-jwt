@@ -1,5 +1,5 @@
-import { SignRaw, ValidateRaw } from "@antelopejs/interface-auth";
 import { Logging } from "@antelopejs/interface-core/logging";
+import { SignRaw, ValidateRaw } from "@antelopejs/interface-auth";
 
 export function construct(config: unknown): void {
   // Set things up when module is loaded

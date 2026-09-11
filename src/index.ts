@@ -1,4 +1,5 @@
 import { ImplementInterface } from "@antelopejs/interface-core";
+
 import { JWTHandler, type JWTHandlerConfig } from "./jwt";
 
 const JWTHandlerNotInitializedError = "JWT handler is not initialized";

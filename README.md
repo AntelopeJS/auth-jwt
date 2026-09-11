@@ -21,9 +21,9 @@ ajs project modules add @antelopejs/auth-jwt
 
 This module implements the Auth interface it can be integrated with your application to handle user authentication, token generation, verification, and access control. The interface is installed separately to maintain modularity and minimize dependencies.
 
-| Name          | Install command                         |                                                               |
-| ------------- | --------------------------------------- | ------------------------------------------------------------- |
-| Auth          | `ajs module imports add auth`           | [Documentation](https://github.com/AntelopeJS/interface-auth) |
+| Name | Install command               |                                                               |
+| ---- | ----------------------------- | ------------------------------------------------------------- |
+| Auth | `ajs module imports add auth` | [Documentation](https://github.com/AntelopeJS/interface-auth) |
 
 ## Configuration
 
@@ -62,10 +62,10 @@ As this module interfaces auth decorator with the interface API provider system,
 Authentication decorators can be used with any parameter in API controller methods. They can be combined with other parameters and decorators:
 
 ```typescript
-import { Controller, Get } from '@ajs/api/beta';
-import { Authentication, AdminAuth } from '@ajs/auth/beta';
+import { Controller, Get } from "@ajs/api/beta";
+import { Authentication, AdminAuth } from "@ajs/auth/beta";
 
-class UsersController extends Controller('/users') {
+class UsersController extends Controller("/users") {
   // Accessible to all authenticated users
   @Get()
   async listUsers(@Authentication() user: any) {
