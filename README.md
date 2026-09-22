@@ -1,5 +1,3 @@
-![Auth JWT](.github/social-card.png)
-
 # @antelopejs/auth-jwt
 
 <div align="center">
