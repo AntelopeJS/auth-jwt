@@ -13,15 +13,20 @@ A flexible authentication and authorization module that implements the Auth inte
 
 ```bash
 ajs project modules add @antelopejs/auth-jwt
+ajs project modules install
 ```
+
+`ajs project modules install` adds a module for each interface the project's modules import but no module implements. This module depends on the API interface, so the command adds `@antelopejs/api` if the project does not already include a module that implements it.
 
 ## Interfaces
 
 This module implements the Auth interface it can be integrated with your application to handle user authentication, token generation, verification, and access control. The interface is installed separately to maintain modularity and minimize dependencies.
 
-| Name | Install command               |                                                               |
-| ---- | ----------------------------- | ------------------------------------------------------------- |
-| Auth | `ajs module imports add auth` | [Documentation](https://github.com/AntelopeJS/interface-auth) |
+Modules that use the Auth interface add its package as a dependency:
+
+| Name | Install command                       |                                                               |
+| ---- | ------------------------------------- | ------------------------------------------------------------- |
+| Auth | `pnpm add @antelopejs/interface-auth` | [Documentation](https://github.com/AntelopeJS/interface-auth) |
 
 ## Configuration
 
@@ -57,11 +62,15 @@ Note: Either `secret` or both `signKey` and `verifyKey` must be provided.
 
 As this module interfaces auth decorator with the interface API provider system, it can be used with API controllers.
 
-Authentication decorators can be used with any parameter in API controller methods. They can be combined with other parameters and decorators:
+Authentication decorators can be used with any parameter in API controller methods. They can be combined with other parameters and decorators. The module that defines the controller depends on both interfaces:
+
+```bash
+pnpm add @antelopejs/interface-api @antelopejs/interface-auth
+```
 
 ```typescript
-import { Controller, Get } from "@ajs/api/beta";
-import { Authentication, AdminAuth } from "@ajs/auth/beta";
+import { Controller, Get } from "@antelopejs/interface-api";
+import { Authentication } from "@antelopejs/interface-auth";
 
 class UsersController extends Controller("/users") {
   // Accessible to all authenticated users
