@@ -1,18 +1,23 @@
 {
   "name": "@antelopejs/auth-jwt",
   "version": "1.0.3",
-  "description": "Authentication and authorization module that implements the Auth interface of antelopejs with JWT",
+  "description": "JWT authentication module for AntelopeJS, implementing the Auth interface with jsonwebtoken",
   "keywords": [
-    "antelope",
+    "antelopejs",
     "auth",
     "authentication",
     "authorization",
+    "jsonwebtoken",
     "jwt"
   ],
+  "homepage": "https://interfaces.antelopejs.com/docs/auth/introduction",
+  "bugs": {
+    "url": "https://github.com/AntelopeJS/auth-jwt/issues"
+  },
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AntelopeJS/auth.git"
+    "url": "git+https://github.com/AntelopeJS/auth-jwt.git"
   },
   "files": [
     "dist"
