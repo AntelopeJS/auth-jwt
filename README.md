@@ -121,6 +121,11 @@ export class SessionController extends Controller("/session") {
 
 `GET /session/me` reads the token from the `x-antelopejs-auth` header or the `ANTELOPEJS_AUTH` cookie. It answers `401` when the token is missing and `403` when it is invalid or expired.
 
+## Documentation
+
+- [Auth](https://interfaces.antelopejs.com/docs/auth/introduction): the `@antelopejs/interface-auth` contract this module implements
+- [Configuration](https://framework.antelopejs.com/docs/concepts/configuration): module sources, `config` blocks and config variables in `antelope.config.ts`
+
 ## Compatibility
 
 | Package                      | Supported range   |
