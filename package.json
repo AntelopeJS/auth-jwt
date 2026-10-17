@@ -40,15 +40,15 @@
     "knip": "knip"
   },
   "dependencies": {
-    "@antelopejs/interface-api": ">=0.0.13 <1.0.0",
-    "@antelopejs/interface-auth": ">=0.0.6 <1.0.0",
-    "@antelopejs/interface-core": ">=0.1.1 <1.0.0",
+    "@antelopejs/interface-api": ">=0.0.15 <1.0.0",
+    "@antelopejs/interface-auth": ">=0.0.7 <1.0.0",
+    "@antelopejs/interface-core": ">=0.2.4 <1.0.0",
     "chai": "^4.5.0",
     "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
-    "@antelopejs/core": "^1.13.4",
-    "@antelopejs/tooling-configs": "^0.0.8",
+    "@antelopejs/core": "^1.16.0",
+    "@antelopejs/tooling-configs": "^0.0.9",
     "@types/chai": "^4.3.20",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mocha": "^10.0.10",
