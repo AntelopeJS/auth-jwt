@@ -1,5 +1,35 @@
 # Changelog
 
+## v1.0.4
+
+[compare changes](https://github.com/AntelopeJS/auth-jwt/compare/v1.0.3...v1.0.4)
+
+### 📖 Documentation
+
+- **readme:** Remove social card image ([#23](https://github.com/AntelopeJS/auth-jwt/pull/23))
+- **readme:** Fix the outdated CLI commands ([#29](https://github.com/AntelopeJS/auth-jwt/pull/29))
+- Rewrite the README ([#31](https://github.com/AntelopeJS/auth-jwt/pull/31))
+- **agents:** Simplify repository guidance ([#32](https://github.com/AntelopeJS/auth-jwt/pull/32))
+
+### 🏡 Chore
+
+- Replace Biome with oxlint, oxfmt and Knip ([#20](https://github.com/AntelopeJS/auth-jwt/pull/20))
+- Align community files with the organization defaults ([#22](https://github.com/AntelopeJS/auth-jwt/pull/22))
+- Remove .git-blame-ignore-revs ([#24](https://github.com/AntelopeJS/auth-jwt/pull/24))
+- **playground:** Update antelope dependencies to latest ([#27](https://github.com/AntelopeJS/auth-jwt/pull/27))
+
+### 🤖 CI
+
+- Standardize npm releases ([#19](https://github.com/AntelopeJS/auth-jwt/pull/19))
+- Use shared npm release workflow ([#21](https://github.com/AntelopeJS/auth-jwt/pull/21))
+- **release:** Release next from a dedicated branch and restore requireCommits ([#25](https://github.com/AntelopeJS/auth-jwt/pull/25))
+- **release:** Reference the shared release workflows through v1 ([#26](https://github.com/AntelopeJS/auth-jwt/pull/26))
+
+### ❤️ Contributors
+
+- Antony Rizzitelli <rizzitelli.antony@pm.me>
+- Thomas
+
 ## v1.0.3
 
 [compare changes](https://github.com/AntelopeJS/auth/compare/v1.0.2...v1.0.3)
