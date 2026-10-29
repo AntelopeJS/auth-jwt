@@ -31,22 +31,35 @@ interface ResolvedJWTHandlerConfig {
   verifyOptions: VerifyOptions;
 }
 
+function hasSecret(
+  config: JWTHandlerConfig,
+): config is JWTHandlerConfig & { secret: string } {
+  return typeof config.secret === "string";
+}
+
+function hasSignAndVerifyKeys(
+  config: JWTHandlerConfig,
+): config is JWTHandlerConfig & { signKey: string; verifyKey: string } {
+  return (
+    typeof config.signKey === "string" && typeof config.verifyKey === "string"
+  );
+}
+
 function resolveJWTHandlerConfig(
   config: JWTHandlerConfig,
 ): ResolvedJWTHandlerConfig {
-  const hasSecret = typeof config.secret === "string";
-  const hasSignAndVerifyKeys =
-    typeof config.signKey === "string" && typeof config.verifyKey === "string";
+  const usesSecret = hasSecret(config);
+  const usesSignAndVerifyKeys = hasSignAndVerifyKeys(config);
 
-  if (!hasSecret && !hasSignAndVerifyKeys) {
+  if (!usesSecret && !usesSignAndVerifyKeys) {
     throw new Error("Invalid JWT config");
   }
 
-  if (hasSecret) {
+  if (usesSecret) {
     return {
       loadFromDisk: false,
-      signKey: config.secret as string,
-      verifyKey: config.secret as string,
+      signKey: config.secret,
+      verifyKey: config.secret,
       signOptions: config.signOptions ?? {},
       verifyOptions: config.verifyOptions ?? {},
     };
@@ -54,8 +67,8 @@ function resolveJWTHandlerConfig(
 
   return {
     loadFromDisk: true,
-    signKey: config.signKey as string,
-    verifyKey: config.verifyKey as string,
+    signKey: config.signKey,
+    verifyKey: config.verifyKey,
     signOptions: config.signOptions ?? {},
     verifyOptions: config.verifyOptions ?? {},
   };

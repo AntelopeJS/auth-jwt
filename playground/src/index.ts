@@ -2,7 +2,6 @@ import { Logging } from "@antelopejs/interface-core/logging";
 import { SignRaw, ValidateRaw } from "@antelopejs/interface-auth";
 
 export function construct(config: unknown): void {
-  // Set things up when module is loaded
   Logging.Debug(
     "Auth-JWT module playground initialized with config:" +
       JSON.stringify(config),
@@ -13,7 +12,6 @@ export function destroy(): void {}
 
 export async function start(): Promise<void> {
   try {
-    // Sample data to sign
     const testData = {
       userId: 123,
       role: "admin",
@@ -22,19 +20,16 @@ export async function start(): Promise<void> {
 
     Logging.Debug("Test data:", JSON.stringify(testData));
 
-    // Sign the data to create a JWT token
     const token = await SignRaw(testData, {
-      expiresIn: "1h", // Token expires in 1 hour
+      expiresIn: "1h",
     });
 
     Logging.Debug("Generated JWT token:", token);
 
-    // Validate the token and retrieve the data
     const validatedData = await ValidateRaw(token);
 
     Logging.Debug("Validated token data:", JSON.stringify(validatedData));
 
-    // Verify the data matches
     if (
       typeof validatedData !== "string" &&
       validatedData.userId === testData.userId &&
@@ -45,7 +40,6 @@ export async function start(): Promise<void> {
       Logging.Debug("❌ Token validation failed - data mismatch");
     }
 
-    // Test with invalid token
     try {
       const invalidToken = `${token}invalid`;
       await ValidateRaw(invalidToken);
