@@ -1,5 +1,15 @@
 import { Logging } from "@antelopejs/interface-core/logging";
-import { SignRaw, ValidateRaw } from "@antelopejs/interface-auth";
+import {
+  type AuthClaims,
+  SignRaw,
+  ValidateRaw,
+} from "@antelopejs/interface-auth";
+
+function isClaimsObject(
+  claims: AuthClaims,
+): claims is Exclude<AuthClaims, string> {
+  return typeof claims !== "string";
+}
 
 export function construct(config: unknown): void {
   Logging.Debug(
@@ -26,13 +36,12 @@ export async function start(): Promise<void> {
 
     Logging.Debug("Generated JWT token:", token);
 
-    const validatedData = await ValidateRaw<{ userId: number; role: string }>(
-      token,
-    );
+    const validatedData = await ValidateRaw(token);
 
     Logging.Debug("Validated token data:", JSON.stringify(validatedData));
 
     if (
+      isClaimsObject(validatedData) &&
       validatedData.userId === testData.userId &&
       validatedData.role === testData.role
     ) {

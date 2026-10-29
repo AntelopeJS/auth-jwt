@@ -12,7 +12,7 @@ The AntelopeJS module that implements `@antelopejs/interface-auth` with `jsonweb
 ## Versioning
 
 - `@antelopejs/interface-api` and `@antelopejs/interface-core` are consumed interfaces with a `>=minimum <1.0.0` range.
-- `@antelopejs/interface-auth` is the implemented interface (`antelopeJs.implements`), so its range stops below the next minor (`>=0.0.7 <0.1.0`). A 0.x minor can break the contract this module implements, so moving to one means updating the implementation and raising both bounds together. `pnpm lint` runs `antelopejs-check-interface-ranges`, which checks every interface range in the repository.
+- `@antelopejs/interface-auth` is the implemented interface (`antelopeJs.implements`), so its range stops below the next minor (`>=0.1.0 <0.2.0`). A 0.x minor can break the contract this module implements, so moving to one means updating the implementation and raising both bounds together. `pnpm lint` runs `antelopejs-check-interface-ranges`, which checks every interface range in the repository.
 - When you raise a minimum, update the Compatibility table in `README.md` too.
 
 ## Tests
