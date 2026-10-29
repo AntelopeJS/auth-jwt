@@ -21,7 +21,7 @@ export interface JWTHandlerConfig {
   verifyOptions?: VerifyOptions;
 }
 
-export type JWTSignPayload = string | Buffer | object;
+export type JWTSignPayload = Parameters<typeof sign>[0];
 
 interface ResolvedJWTHandlerConfig {
   loadFromDisk: boolean;
