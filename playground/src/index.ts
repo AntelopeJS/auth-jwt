@@ -30,14 +30,13 @@ export async function start(): Promise<void> {
     Logging.Debug("Generated JWT token:", token);
 
     // Validate the token and retrieve the data
-    const validatedData = await ValidateRaw<{ userId: number; role: string }>(
-      token,
-    );
+    const validatedData = await ValidateRaw(token);
 
     Logging.Debug("Validated token data:", JSON.stringify(validatedData));
 
     // Verify the data matches
     if (
+      typeof validatedData !== "string" &&
       validatedData.userId === testData.userId &&
       validatedData.role === testData.role
     ) {
