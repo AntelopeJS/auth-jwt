@@ -1,10 +1,8 @@
 {
   "rules": {
     "anti-slop/no-object-parameters": 1,
-    "anti-slop/no-runtime-typeof": 3,
     "anti-slop/no-unknown-parameters": 1,
-    "anti-slop/no-unknown-type-aliases": 1,
-    "anti-slop/require-safety-comment-for-type-assertion": 7
+    "anti-slop/require-safety-comment-for-type-assertion": 3
   },
   "oversizeFiles": {}
 }

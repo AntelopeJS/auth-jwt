@@ -7,8 +7,6 @@ import type {
 import { getJWTHandler } from "../../index";
 import type { JWTSignPayload } from "../../jwt";
 
-type AuthPayload = unknown;
-
 function createJWTSignOptions(
   options?: SignOptions,
 ): JWTSignOptions | undefined {
@@ -34,7 +32,7 @@ function createJWTSignOptions(
 }
 
 export namespace internal {
-  export function Verify<T = AuthPayload>(
+  export function Verify<T = unknown>(
     data?: string,
     options?: JWTVerifyOptions,
   ): Promise<T> {
