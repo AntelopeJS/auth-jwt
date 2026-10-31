@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@antelopejs/interface-auth': file:.campaign/tgz/antelopejs-interface-auth-6c75264.tgz
+  '@antelopejs/interface-auth': file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz
 
 importers:
 
@@ -15,8 +15,8 @@ importers:
         specifier: '>=0.0.15 <1.0.0'
         version: 0.0.15(@antelopejs/interface-core@0.2.4)
       '@antelopejs/interface-auth':
-        specifier: file:.campaign/tgz/antelopejs-interface-auth-6c75264.tgz
-        version: file:.campaign/tgz/antelopejs-interface-auth-6c75264.tgz(@antelopejs/interface-api@0.0.15(@antelopejs/interface-core@0.2.4))(@antelopejs/interface-core@0.2.4)
+        specifier: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz
+        version: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz(@antelopejs/interface-api@0.0.15(@antelopejs/interface-core@0.2.4))(@antelopejs/interface-core@0.2.4)
       '@antelopejs/interface-core':
         specifier: '>=0.2.4 <1.0.0'
         version: 0.2.4
@@ -82,8 +82,8 @@ importers:
   playground:
     dependencies:
       '@antelopejs/interface-auth':
-        specifier: file:../.campaign/tgz/antelopejs-interface-auth-6c75264.tgz
-        version: file:.campaign/tgz/antelopejs-interface-auth-6c75264.tgz(@antelopejs/interface-api@0.0.15(@antelopejs/interface-core@0.2.4))(@antelopejs/interface-core@0.2.4)
+        specifier: file:../.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz
+        version: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz(@antelopejs/interface-api@0.0.15(@antelopejs/interface-core@0.2.4))(@antelopejs/interface-core@0.2.4)
       '@antelopejs/interface-core':
         specifier: '>=0.2.4 <1.0.0'
         version: 0.2.4
@@ -110,8 +110,8 @@ packages:
     peerDependencies:
       '@antelopejs/interface-core': '>=0.2.4 <1.0.0'
 
-  '@antelopejs/interface-auth@file:.campaign/tgz/antelopejs-interface-auth-6c75264.tgz':
-    resolution: {integrity: sha512-LL9u/2nMJdXj4bNiCngVNwIhe/GQ6b/h2t+PF/TZU+ObULFPbwDShfzOSv9MPqdVZ3fUSdQLP7XuDnljVAP5QA==, tarball: file:.campaign/tgz/antelopejs-interface-auth-6c75264.tgz}
+  '@antelopejs/interface-auth@file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz':
+    resolution: {integrity: sha512-LL9u/2nMJdXj4bNiCngVNwIhe/GQ6b/h2t+PF/TZU+ObULFPbwDShfzOSv9MPqdVZ3fUSdQLP7XuDnljVAP5QA==, tarball: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz}
     version: 0.2.0
     peerDependencies:
       '@antelopejs/interface-api': '>=0.0.15 <1.0.0'
@@ -2646,7 +2646,7 @@ snapshots:
     dependencies:
       '@antelopejs/interface-core': 0.2.4
 
-  '@antelopejs/interface-auth@file:.campaign/tgz/antelopejs-interface-auth-6c75264.tgz(@antelopejs/interface-api@0.0.15(@antelopejs/interface-core@0.2.4))(@antelopejs/interface-core@0.2.4)':
+  '@antelopejs/interface-auth@file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz(@antelopejs/interface-api@0.0.15(@antelopejs/interface-core@0.2.4))(@antelopejs/interface-core@0.2.4)':
     dependencies:
       '@antelopejs/interface-api': 0.0.15(@antelopejs/interface-core@0.2.4)
       '@antelopejs/interface-core': 0.2.4
