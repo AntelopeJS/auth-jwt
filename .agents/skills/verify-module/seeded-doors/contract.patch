@@ -1,0 +1,13 @@
+diff --git a/package.json b/package.json
+index ec86663..fa174ec 100644
+--- a/package.json
++++ b/package.json
+@@ -84,7 +84,7 @@
+       "@antelopejs/interface-auth"
+     ],
+     "defaultConfig": {
+-      "secret": "your-secret-key"
++      "secret": "change-me"
+     },
+     "test": "src/test/antelope.test.ts"
+   }
