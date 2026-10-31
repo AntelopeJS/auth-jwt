@@ -57,7 +57,7 @@ export default defineConfig({
 
 Or with a key pair read from disk at startup:
 
-```typescript
+```typescript fragment
 config: {
   signKey: "./keys/private.pem",
   verifyKey: "./keys/public.pem",
@@ -138,13 +138,7 @@ export class SessionController extends Controller("/session") {
 
 <!-- antelopejs-docs-compat:end -->
 
-| Package                      | Supported range   |
-| ---------------------------- | ----------------- |
-| `@antelopejs/interface-auth` | `>=0.1.0 <0.2.0`  |
-| `@antelopejs/interface-api`  | `>=0.0.15 <1.0.0` |
-| `@antelopejs/interface-core` | `>=0.2.4 <1.0.0`  |
-
-The module is developed and tested against `@antelopejs/core` `^1.13.4` on Node.js 24.
+The module is developed and tested on Node.js 24.
 
 ## Contributing
 
