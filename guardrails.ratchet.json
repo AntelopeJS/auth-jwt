@@ -1,7 +1,0 @@
-{
-  "pack": "0.2.17",
-  "rules": {
-    "anti-slop/no-unknown-parameters": 1
-  },
-  "oversizeFiles": {}
-}
