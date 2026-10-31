@@ -52,8 +52,9 @@ function isJsonObject(value: unknown): value is JsonObject {
 }
 
 /**
- * What jsonwebtoken decodes from a token is parsed JSON: the signed string,
- * or an object (the claims, or the whole token with `complete`).
+ * What jsonwebtoken decodes from a token is the signed string, or the parsed
+ * claims set. RFC 7519 defines the claims set as a JSON object, so a payload
+ * that parses to an array or a scalar is refused.
  */
 function isAuthClaims(payload: unknown): payload is AuthClaims {
   return typeof payload === "string" || isJsonObject(payload);
@@ -191,7 +192,7 @@ export class JWTHandler {
             reject(
               new HTTPResult(
                 ForbiddenStatusCode,
-                `${ForbiddenMessagePrefix} (the payload is not JSON)`,
+                `${ForbiddenMessagePrefix} (the payload is not a JSON object)`,
               ),
             );
             return;
