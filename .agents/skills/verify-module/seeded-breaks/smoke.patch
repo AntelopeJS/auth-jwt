@@ -1,0 +1,13 @@
+diff --git a/src/index.ts b/src/index.ts
+index 75410ce..f8bfe97 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -7,7 +7,7 @@ const JWTHandlerNotInitializedError = "JWT handler is not initialized";
+ let auth: JWTHandler | undefined;
+ 
+ export async function construct(config: JWTHandlerConfig): Promise<void> {
+-  auth = new JWTHandler(config);
++  auth = new JWTHandler({ ...config, secret: "not-the-configured-secret" });
+   await auth.loadKeys();
+   void ImplementInterface(
+     await import("@antelopejs/interface-auth"),

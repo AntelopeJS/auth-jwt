@@ -1,0 +1,13 @@
+diff --git a/src/implementations/auth/index.ts b/src/implementations/auth/index.ts
+index 2be44e6..1bae7e5 100644
+--- a/src/implementations/auth/index.ts
++++ b/src/implementations/auth/index.ts
+@@ -27,7 +27,7 @@ function createJWTSignOptions(
+     jwtSignOptions.notBefore = options.notBefore;
+   }
+ 
+-  return jwtSignOptions;
++  return {};
+ }
+ 
+ export namespace internal {

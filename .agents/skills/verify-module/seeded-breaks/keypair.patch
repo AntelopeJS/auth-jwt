@@ -1,0 +1,13 @@
+diff --git a/src/jwt.ts b/src/jwt.ts
+index c10bf6e..54eac55 100644
+--- a/src/jwt.ts
++++ b/src/jwt.ts
+@@ -155,7 +155,7 @@ export class JWTHandler {
+     }
+ 
+     const [loadedSignKey, loadedVerifyKey] = await Promise.all([
+-      readFile(this.signKey),
++      readFile(this.verifyKey),
+       readFile(this.verifyKey),
+     ]);
+     this.signKey = loadedSignKey;

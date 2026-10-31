@@ -1,0 +1,13 @@
+diff --git a/src/jwt.ts b/src/jwt.ts
+index c10bf6e..fbb4d21 100644
+--- a/src/jwt.ts
++++ b/src/jwt.ts
+@@ -119,7 +119,7 @@ function mergeSignOptions(
+     return baseOptions;
+   }
+ 
+-  return { ...baseOptions, ...overrideOptions };
++  return { ...overrideOptions, ...baseOptions };
+ }
+ 
+ function mergeVerifyOptions(
