@@ -1,11 +1,14 @@
-import type { SignOptions } from "@antelopejs/interface-auth";
+import type {
+  AuthClaims,
+  AuthPayload,
+  SignOptions,
+} from "@antelopejs/interface-auth";
 import type {
   SignOptions as JWTSignOptions,
   VerifyOptions as JWTVerifyOptions,
 } from "jsonwebtoken";
 
 import { getJWTHandler } from "../../index";
-import type { JWTSignPayload } from "../../jwt";
 
 function createJWTSignOptions(
   options?: SignOptions,
@@ -17,30 +20,26 @@ function createJWTSignOptions(
   const jwtSignOptions: JWTSignOptions = {};
 
   if (options.expiresIn !== undefined) {
-    jwtSignOptions.expiresIn = options.expiresIn as NonNullable<
-      JWTSignOptions["expiresIn"]
-    >;
+    jwtSignOptions.expiresIn = options.expiresIn;
   }
 
   if (options.notBefore !== undefined) {
-    jwtSignOptions.notBefore = options.notBefore as NonNullable<
-      JWTSignOptions["notBefore"]
-    >;
+    jwtSignOptions.notBefore = options.notBefore;
   }
 
   return jwtSignOptions;
 }
 
 export namespace internal {
-  export function Verify<T = unknown>(
+  export function Verify(
     data?: string,
     options?: JWTVerifyOptions,
-  ): Promise<T> {
-    return getJWTHandler().verify<T>(data, options);
+  ): Promise<AuthClaims> {
+    return getJWTHandler().verify(data, options);
   }
 
   export function Sign(
-    data: JWTSignPayload,
+    data: AuthPayload,
     options?: SignOptions,
   ): Promise<string> {
     return getJWTHandler().sign(data, createJWTSignOptions(options));
