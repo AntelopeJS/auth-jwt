@@ -1,6 +1,6 @@
 {
   "name": "@antelopejs/auth-jwt",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "JWT authentication module for AntelopeJS, implementing the Auth interface with jsonwebtoken",
   "keywords": [
     "antelopejs",
@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@antelopejs/interface-api": ">=0.0.15 <1.0.0",
-    "@antelopejs/interface-auth": ">=0.1.0 <0.2.0",
+    "@antelopejs/interface-auth": "file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz",
     "@antelopejs/interface-core": ">=0.2.4 <1.0.0",
     "chai": "^4.5.0",
     "jsonwebtoken": "^9.0.3"
@@ -76,6 +76,11 @@
     "typescript": "^5.9.3"
   },
   "packageManager": "pnpm@10.6.5",
+  "pnpm": {
+    "overrides": {
+      "@antelopejs/interface-auth": "file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz"
+    }
+  },
   "antelopeJs": {
     "implements": [
       "@antelopejs/interface-auth"

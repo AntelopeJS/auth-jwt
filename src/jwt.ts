@@ -1,5 +1,11 @@
 import { readFile } from "node:fs/promises";
 import { HTTPResult } from "@antelopejs/interface-api";
+import type {
+  AuthClaims,
+  AuthPayload,
+  JsonObject,
+  JsonValue,
+} from "@antelopejs/interface-auth";
 import {
   type SignOptions,
   sign,
@@ -21,7 +27,38 @@ export interface JWTHandlerConfig {
   verifyOptions?: VerifyOptions;
 }
 
-export type JWTSignPayload = string | Buffer | object;
+function isJsonValue(value: unknown): value is JsonValue {
+  if (
+    value === null ||
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean"
+  ) {
+    return true;
+  }
+  if (Array.isArray(value)) {
+    return value.every(isJsonValue);
+  }
+  return isJsonObject(value);
+}
+
+function isJsonObject(value: unknown): value is JsonObject {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    !Array.isArray(value) &&
+    Object.values(value).every(isJsonValue)
+  );
+}
+
+/**
+ * What jsonwebtoken decodes from a token is the signed string, or the parsed
+ * claims set. RFC 7519 defines the claims set as a JSON object, so a payload
+ * that parses to an array or a scalar is refused.
+ */
+function isAuthClaims(payload: unknown): payload is AuthClaims {
+  return typeof payload === "string" || isJsonObject(payload);
+}
 
 interface ResolvedJWTHandlerConfig {
   loadFromDisk: boolean;
@@ -125,10 +162,10 @@ export class JWTHandler {
     this.verifyKey = loadedVerifyKey;
   }
 
-  verify<T = unknown>(
+  verify(
     data: string | undefined,
     options?: VerifyOptions,
-  ): Promise<T> {
+  ): Promise<AuthClaims> {
     if (!data) {
       return Promise.reject(
         new HTTPResult(UnauthorizedStatusCode, UnauthorizedMessage),
@@ -151,13 +188,23 @@ export class JWTHandler {
             return;
           }
 
-          resolve(payload as T);
+          if (!isAuthClaims(payload)) {
+            reject(
+              new HTTPResult(
+                ForbiddenStatusCode,
+                `${ForbiddenMessagePrefix} (the payload is not a JSON object)`,
+              ),
+            );
+            return;
+          }
+
+          resolve(payload);
         },
       );
     });
   }
 
-  sign(data: JWTSignPayload, options?: SignOptions): Promise<string> {
+  sign(data: AuthPayload, options?: SignOptions): Promise<string> {
     return new Promise((resolve, reject) => {
       sign(
         data,
