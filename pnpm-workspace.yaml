@@ -1,3 +1,5 @@
 packages:
   - "./"
   - "playground"
+overrides:
+  "@antelopejs/interface-auth": "file:.campaign/tgz/antelopejs-interface-auth-6c75264.tgz"

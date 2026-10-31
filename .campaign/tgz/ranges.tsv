@@ -1,0 +1,4 @@
+@antelopejs/interface-auth	package.json	dependencies	>=0.1.0 <0.2.0
+@antelopejs/interface-auth	playground/package.json	dependencies	>=0.1.0 <1.0.0
+@antelopejs/interface-auth	package.json	pnpm.overrides	
+@antelopejs/interface-auth	pnpm-workspace.yaml	overrides	
