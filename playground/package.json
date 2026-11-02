@@ -9,7 +9,7 @@
   "dependencies": {
     "@antelopejs/interface-api": "file:../.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz",
     "@antelopejs/interface-auth": "file:../.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz",
-    "@antelopejs/interface-core": ">=0.2.4 <1.0.0"
+    "@antelopejs/interface-core": "file:../.campaign/tgz/antelopejs-interface-core-f7df541.tgz"
   },
   "devDependencies": {
     "@types/node": "^20.5.7",
