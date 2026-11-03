@@ -121,7 +121,7 @@ export class SessionController extends Controller("/session") {
 }
 ```
 
-`GET /session/me` reads the token from the `x-antelopejs-auth` header, or from the `ANTELOPEJS_AUTH` cookie when the header is absent. It answers `401` when the token is missing. It answers `403` when the token is invalid or expired, or when its payload is not a JSON object.
+`GET /session/me` reads the token from the `x-antelopejs-auth` header, or from the `ANTELOPEJS_AUTH` cookie when the header is absent. It answers `401` when the token is missing. It answers `403` when the token is invalid or expired, or when its payload is neither a string nor a JSON object, such as an array or a number.
 
 ## Documentation
 
