@@ -1,6 +1,6 @@
 {
   "name": "@antelopejs/auth-jwt",
-  "version": "2.0.0",
+  "version": "2.0.0-rc.0",
   "description": "JWT authentication module for AntelopeJS, implementing the Auth interface with jsonwebtoken",
   "keywords": [
     "antelopejs",
