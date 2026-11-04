@@ -1,13 +1,13 @@
-# @antelopejs/auth-jwt
+# `@antelopejs/auth-jwt`
 
 <div align="center">
-<a href="https://www.npmjs.com/package/@antelopejs/auth-jwt"><img alt="npm" src="https://img.shields.io/npm/v/@antelopejs/auth-jwt?style=for-the-badge&labelColor=000000&color=000000"></a>
-<a href="./LICENSE"><img alt="License" src="https://img.shields.io/npm/l/@antelopejs/auth-jwt?style=for-the-badge&labelColor=000000&color=000000"></a>
-<a href="https://discord.gg/g4pFt6eXqu"><img src="https://img.shields.io/badge/Discord-18181B?logo=discord&style=for-the-badge&color=000000" alt="Discord"></a>
-<a href="https://interfaces.antelopejs.com/docs/auth/introduction"><img src="https://img.shields.io/badge/Docs-18181B?style=for-the-badge&color=000000" alt="Documentation"></a>
+<a href="https://www.npmjs.com/package/@antelopejs/auth-jwt"><img data-illustration alt="npm" src="https://img.shields.io/npm/v/@antelopejs/auth-jwt?style=for-the-badge&labelColor=000000&color=000000"></a>
+<a href="./LICENSE"><img data-illustration alt="License" src="https://img.shields.io/npm/l/@antelopejs/auth-jwt?style=for-the-badge&labelColor=000000&color=000000"></a>
+<a href="https://discord.gg/g4pFt6eXqu"><img data-illustration src="https://img.shields.io/badge/Discord-18181B?logo=discord&style=for-the-badge&color=000000" alt="Discord"></a>
+<a href="https://interfaces.antelopejs.com/docs/auth/introduction"><img data-illustration src="https://img.shields.io/badge/Docs-18181B?style=for-the-badge&color=000000" alt="Documentation"></a>
 </div>
 
-The AntelopeJS authentication module: it signs and verifies the auth interface's tokens as JSON Web Tokens, with [`jsonwebtoken`](https://github.com/auth0/node-jsonwebtoken).
+The AntelopeJS authentication module. It implements `@antelopejs/interface-auth` and signs and verifies its tokens as JSON Web Tokens with [`jsonwebtoken`](https://github.com/auth0/node-jsonwebtoken).
 
 Part of [AntelopeJS](https://github.com/AntelopeJS/antelopejs). Used by [AntelopeJS DMS](https://github.com/AntelopeJS/dms), the open-source back office for your PostgreSQL, MongoDB or RethinkDB database.
 
@@ -17,7 +17,7 @@ Part of [AntelopeJS](https://github.com/AntelopeJS/antelopejs). Used by [Antelop
 | ---------------------------------------------------------------------------- | ---------------------------------------------------------------- |
 | [`@antelopejs/interface-auth`](https://github.com/AntelopeJS/interface-auth) | [Auth](https://interfaces.antelopejs.com/docs/auth/introduction) |
 
-The `@Authentication` decorator, custom auth decorators, token sources and cookies are documented on the interface pages. The module also depends on [`@antelopejs/interface-api`](https://interfaces.antelopejs.com/docs/api/introduction), implemented by [`@antelopejs/api`](https://github.com/AntelopeJS/api).
+The interface pages document the `@Authentication` decorator, custom auth decorators, token sources, and cookies. The module also depends on [`@antelopejs/interface-api`](https://interfaces.antelopejs.com/docs/api/introduction), which [`@antelopejs/api`](https://github.com/AntelopeJS/api) implements.
 
 ## Install
 
@@ -42,7 +42,7 @@ export default defineConfig({
       source: {
         type: "package",
         package: "@antelopejs/auth-jwt",
-        version: "^1.0.3",
+        version: "^2.0.0",
       },
       config: {
         secret: "change-me",
@@ -57,9 +57,11 @@ export default defineConfig({
 });
 ```
 
-Or with a key pair read from disk at startup:
+When the `JWT_SECRET` environment variable is set, `envOverrides` writes its value into `secret`.
 
-```typescript
+To sign with a key pair instead, give the paths of the two key files. The module reads both files when it constructs.
+
+```typescript fragment
 config: {
   signKey: "./keys/private.pem",
   verifyKey: "./keys/public.pem",
@@ -68,25 +70,25 @@ config: {
 },
 ```
 
-| Key             | Description                                                                                                                                                                                   |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `secret`        | Shared secret that signs and verifies tokens. Takes precedence over `signKey` and `verifyKey`.                                                                                                |
-| `signKey`       | Path of the private key file. Used with `verifyKey` when `secret` is not set.                                                                                                                 |
-| `verifyKey`     | Path of the public key file.                                                                                                                                                                  |
-| `signOptions`   | Default [`jsonwebtoken` sign options](https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback). `SignRaw` options override `expiresIn` and `notBefore`. |
-| `verifyOptions` | Default [`jsonwebtoken` verify options](https://github.com/auth0/node-jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback).                                                        |
+| Key             | Description                                                                                                                                                                                                                         |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `secret`        | Shared secret that signs and verifies tokens. Takes precedence over `signKey` and `verifyKey`.                                                                                                                                      |
+| `signKey`       | Path of the private key file. The module uses it with `verifyKey` when `secret` is not set.                                                                                                                                         |
+| `verifyKey`     | Path of the public key file.                                                                                                                                                                                                        |
+| `signOptions`   | Default [`jsonwebtoken` sign options](https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback). The `expiresIn` and `notBefore` that `SignRaw` or `SignServerResponse` receive override them. |
+| `verifyOptions` | Default [`jsonwebtoken` verify options](https://github.com/auth0/node-jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback). Options passed to `ValidateRaw` override them.                                               |
 
-The module refuses to start without `secret` or both `signKey` and `verifyKey`. `ajs project modules add` writes `secret: "your-secret-key"`: replace it before deploying.
+The module refuses to start without `secret` or both `signKey` and `verifyKey`, and throws `Invalid JWT config`. `ajs project modules add` writes `secret: "your-secret-key"`. Replace it before you deploy.
 
 ## Quick start
 
-In the module that serves the routes, add both interfaces:
+In the module that serves the routes, add both interfaces.
 
 ```bash
 pnpm add @antelopejs/interface-api @antelopejs/interface-auth
 ```
 
-Issue a token as a cookie, then read it back on a protected route:
+Issue a token as a cookie, then read it back on a protected route.
 
 ```typescript [src/index.ts]
 import {
@@ -121,32 +123,26 @@ export class SessionController extends Controller("/session") {
 }
 ```
 
-`GET /session/me` reads the token from the `x-antelopejs-auth` header or the `ANTELOPEJS_AUTH` cookie. It answers `401` when the token is missing and `403` when it is invalid or expired.
+`GET /session/me` reads the token from the `x-antelopejs-auth` header, or from the `ANTELOPEJS_AUTH` cookie when the header is absent. It answers `401` when the token is missing. It answers `403` when the token is invalid or expired, or when its payload is neither a string nor a JSON object, such as an array or a number.
 
 ## Documentation
 
-- [Auth](https://interfaces.antelopejs.com/docs/auth/introduction): the `@antelopejs/interface-auth` contract this module implements
-- [Configuration](https://framework.antelopejs.com/docs/concepts/configuration): module sources, `config` blocks and config variables in `antelope.config.ts`
+- [Auth](https://interfaces.antelopejs.com/docs/auth/introduction) documents the `@antelopejs/interface-auth` contract that this module implements.
+- [Configuration](https://framework.antelopejs.com/docs/concepts/configuration) documents module sources, `config` blocks, and config variables in `antelope.config.ts`.
 
 ## Compatibility
 
 <!-- antelopejs-docs-compat:start -->
 
-| Package                      | Supported         | Tested with |
-| ---------------------------- | ----------------- | ----------- |
-| `@antelopejs/interface-api`  | `>=0.0.15 <1.0.0` | `0.0.15`    |
-| `@antelopejs/interface-auth` | `>=0.1.0 <0.2.0`  | `0.1.0`     |
-| `@antelopejs/interface-core` | `>=0.2.4 <1.0.0`  | `0.2.4`     |
+| Package                      | Supported        | Tested with |
+| ---------------------------- | ---------------- | ----------- |
+| `@antelopejs/interface-api`  | `>=0.2.0 <1.0.0` | `0.2.0`     |
+| `@antelopejs/interface-auth` | `>=0.2.0 <0.3.0` | `0.2.0`     |
+| `@antelopejs/interface-core` | `>=0.4.0 <1.0.0` | `0.4.0`     |
 
 <!-- antelopejs-docs-compat:end -->
 
-| Package                      | Supported range   |
-| ---------------------------- | ----------------- |
-| `@antelopejs/interface-auth` | `>=0.1.0 <0.2.0`  |
-| `@antelopejs/interface-api`  | `>=0.0.15 <1.0.0` |
-| `@antelopejs/interface-core` | `>=0.2.4 <1.0.0`  |
-
-The module is developed and tested against `@antelopejs/core` `^1.13.4` on Node.js 24.
+The generated table lists the interface packages and ranges this module loads, read from `package.json`.
 
 ## Contributing
 

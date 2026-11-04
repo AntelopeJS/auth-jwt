@@ -1,0 +1,13 @@
+diff --git a/src/jwt.ts b/src/jwt.ts
+index c10bf6e..261a67f 100644
+--- a/src/jwt.ts
++++ b/src/jwt.ts
+@@ -14,7 +14,7 @@ import {
+ } from "jsonwebtoken";
+ 
+ const ForbiddenStatusCode = 403;
+-const UnauthorizedStatusCode = 401;
++const UnauthorizedStatusCode = 403;
+ const UnauthorizedMessage = "Unauthorized";
+ const ForbiddenMessagePrefix = "Forbidden";
+ const JWTSignFailureMessage = "Unable to sign JWT";

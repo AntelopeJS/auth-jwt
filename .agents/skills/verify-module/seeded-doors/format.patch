@@ -1,0 +1,13 @@
+diff --git a/src/jwt.ts b/src/jwt.ts
+index c10bf6e..2a9db91 100644
+--- a/src/jwt.ts
++++ b/src/jwt.ts
+@@ -97,7 +97,7 @@ function resolveJWTHandlerConfig(
+       loadFromDisk: false,
+       signKey: config.secret,
+       verifyKey: config.secret,
+-      signOptions: config.signOptions ?? {},
++      signOptions: { algorithm: "HS512", ...config.signOptions },
+       verifyOptions: config.verifyOptions ?? {},
+     };
+   }

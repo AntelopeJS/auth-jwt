@@ -11,11 +11,8 @@ function isClaimsObject(
   return typeof claims !== "string";
 }
 
-export function construct(config: unknown): void {
-  Logging.Debug(
-    "Auth-JWT module playground initialized with config:" +
-      JSON.stringify(config),
-  );
+export function construct(): void {
+  Logging.Debug("Auth-JWT module playground initialized");
 }
 
 export function destroy(): void {}

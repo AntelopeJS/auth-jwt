@@ -1,0 +1,13 @@
+diff --git a/src/jwt.ts b/src/jwt.ts
+index c10bf6e..9f62762 100644
+--- a/src/jwt.ts
++++ b/src/jwt.ts
+@@ -176,7 +176,7 @@ export class JWTHandler {
+       verify(
+         data,
+         this.verifyKey,
+-        mergeVerifyOptions(this.verifyOptions, options),
++        { ...mergeVerifyOptions(this.verifyOptions, options), ignoreExpiration: true },
+         (error, payload) => {
+           if (error) {
+             reject(

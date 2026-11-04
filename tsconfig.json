@@ -3,6 +3,7 @@
     "target": "esnext",
     "module": "commonjs",
     "lib": ["ES2020"],
+    "types": ["node", "mocha"],
     "allowJs": false,
     "outDir": "dist",
     "rootDir": "src",
