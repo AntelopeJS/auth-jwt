@@ -6,7 +6,6 @@ settings:
 
 overrides:
   '@antelopejs/interface-auth': file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz
-  '@antelopejs/interface-api': file:.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz
   '@antelopejs/core': file:.campaign/tgz/antelopejs-core-184eb90.tgz
 
 importers:
@@ -14,11 +13,11 @@ importers:
   .:
     dependencies:
       '@antelopejs/interface-api':
-        specifier: file:.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz
-        version: file:.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz(@antelopejs/interface-core@0.4.0)
+        specifier: '>=0.2.0 <1.0.0'
+        version: 0.2.0(@antelopejs/interface-core@0.4.0)
       '@antelopejs/interface-auth':
         specifier: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz
-        version: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz(@antelopejs/interface-api@file:.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)
+        version: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz(@antelopejs/interface-api@0.2.0(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)
       '@antelopejs/interface-core':
         specifier: '>=0.4.0 <1.0.0'
         version: 0.4.0
@@ -84,11 +83,11 @@ importers:
   playground:
     dependencies:
       '@antelopejs/interface-api':
-        specifier: file:../.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz
-        version: file:.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz(@antelopejs/interface-core@0.4.0)
+        specifier: '>=0.2.0 <1.0.0'
+        version: 0.2.0(@antelopejs/interface-core@0.4.0)
       '@antelopejs/interface-auth':
         specifier: file:../.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz
-        version: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz(@antelopejs/interface-api@file:.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)
+        version: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz(@antelopejs/interface-api@0.2.0(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)
       '@antelopejs/interface-core':
         specifier: '>=0.4.0 <1.0.0'
         version: 0.4.0
@@ -111,11 +110,10 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
-  '@antelopejs/interface-api@file:.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz':
-    resolution: {integrity: sha512-pF423v3AMpaak5uLd/Q7TXoT+CXqxZXHQmSbEeik7eGfS+2Fsc2k1x/IR1gX4Hje8QuqLMZmkgT/eDyGXl/p2A==, tarball: file:.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz}
-    version: 0.3.0
+  '@antelopejs/interface-api@0.2.0':
+    resolution: {integrity: sha512-N7HGrJjJLIR/EN2QSYEAvMdYa9A13XWBoCxWJhy+BlilcIC+3fZySAE9sfQVUwb26Dg/6St+BY2RV0OufgvE1A==}
     peerDependencies:
-      '@antelopejs/interface-core': '>=0.2.4 <1.0.0'
+      '@antelopejs/interface-core': '>=0.4.0 <1.0.0'
 
   '@antelopejs/interface-auth@file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz':
     resolution: {integrity: sha512-LL9u/2nMJdXj4bNiCngVNwIhe/GQ6b/h2t+PF/TZU+ObULFPbwDShfzOSv9MPqdVZ3fUSdQLP7XuDnljVAP5QA==, tarball: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz}
@@ -2649,13 +2647,13 @@ snapshots:
       semver: 7.7.4
       typescript: 5.9.3
 
-  '@antelopejs/interface-api@file:.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz(@antelopejs/interface-core@0.4.0)':
+  '@antelopejs/interface-api@0.2.0(@antelopejs/interface-core@0.4.0)':
     dependencies:
       '@antelopejs/interface-core': 0.4.0
 
-  '@antelopejs/interface-auth@file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz(@antelopejs/interface-api@file:.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)':
+  '@antelopejs/interface-auth@file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz(@antelopejs/interface-api@0.2.0(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)':
     dependencies:
-      '@antelopejs/interface-api': file:.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz(@antelopejs/interface-core@0.4.0)
+      '@antelopejs/interface-api': 0.2.0(@antelopejs/interface-core@0.4.0)
       '@antelopejs/interface-core': 0.4.0
 
   '@antelopejs/interface-core@0.4.0':
