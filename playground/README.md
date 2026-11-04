@@ -24,6 +24,6 @@ When it starts, the `playground` module in `src/index.ts` signs a payload with `
 | ---------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------- |
 | `@antelopejs/interface-api`  | `file:../.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz`  | `file:.campaign/tgz/antelopejs-interface-api-f2a99b5.tgz`  |
 | `@antelopejs/interface-auth` | `file:../.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz` | `file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz` |
-| `@antelopejs/interface-core` | `file:../.campaign/tgz/antelopejs-interface-core-f7df541.tgz` | `file:.campaign/tgz/antelopejs-interface-core-f7df541.tgz` |
+| `@antelopejs/interface-core` | `>=0.4.0 <1.0.0`                                              | `0.4.0`                                                    |
 
 <!-- antelopejs-docs-compat:end -->
