@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@antelopejs/interface-api": ">=0.2.0 <1.0.0",
-    "@antelopejs/interface-auth": "file:../.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz",
+    "@antelopejs/interface-auth": ">=0.2.0 <1.0.0",
     "@antelopejs/interface-core": ">=0.4.0 <1.0.0"
   },
   "devDependencies": {

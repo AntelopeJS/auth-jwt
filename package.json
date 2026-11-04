@@ -49,13 +49,13 @@
   },
   "dependencies": {
     "@antelopejs/interface-api": ">=0.2.0 <1.0.0",
-    "@antelopejs/interface-auth": "file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz",
+    "@antelopejs/interface-auth": ">=0.2.0 <0.3.0",
     "@antelopejs/interface-core": ">=0.4.0 <1.0.0",
     "chai": "^4.5.0",
     "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
-    "@antelopejs/core": "file:.campaign/tgz/antelopejs-core-184eb90.tgz",
+    "@antelopejs/core": "^1.20.0",
     "@antelopejs/tooling-configs": "^0.2.17",
     "@types/chai": "^4.3.20",
     "@types/jsonwebtoken": "^9.0.10",
@@ -74,12 +74,6 @@
     "typescript": "^5.9.3"
   },
   "packageManager": "pnpm@10.6.5",
-  "pnpm": {
-    "overrides": {
-      "@antelopejs/interface-auth": "file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz",
-      "@antelopejs/core": "file:.campaign/tgz/antelopejs-core-184eb90.tgz"
-    }
-  },
   "antelopeJs": {
     "implements": [
       "@antelopejs/interface-auth"
