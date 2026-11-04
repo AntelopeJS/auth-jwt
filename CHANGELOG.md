@@ -1,39 +1,5 @@
 # Changelog
 
-## v2.0.0
-
-[compare changes](https://github.com/AntelopeJS/auth-jwt/compare/v1.0.4...v2.0.0)
-
-### 🩹 Fixes
-
-- **deps:** Cap the interface-auth range below the next minor ([#36](https://github.com/AntelopeJS/auth-jwt/pull/36))
-
-### 💅 Refactors
-
-- Clean the repo with the guardrail pack ([#39](https://github.com/AntelopeJS/auth-jwt/pull/39))
-
-### 📖 Documentation
-
-- **readme:** Align the compatibility table with package.json ranges ([#37](https://github.com/AntelopeJS/auth-jwt/pull/37))
-- **readme:** Use one Discord invite ([#49](https://github.com/AntelopeJS/auth-jwt/pull/49))
-- **github:** Send questions and ideas to Discord ([#54](https://github.com/AntelopeJS/auth-jwt/pull/54))
-- **readme:** Link the package to AntelopeJS and AntelopeJS DMS ([f5cd3b6](https://github.com/AntelopeJS/auth-jwt/commit/f5cd3b6))
-
-### 📦 Build
-
-- **deps:** Adopt @antelopejs/interface-auth 0.1.0 ([#40](https://github.com/AntelopeJS/auth-jwt/pull/40))
-- **deps:** Bump @antelopejs/tooling-configs to 0.2.17 ([#43](https://github.com/AntelopeJS/auth-jwt/pull/43))
-
-### 🏡 Chore
-
-- Adopt the guardrail pack from tooling-configs 0.2.0 ([#34](https://github.com/AntelopeJS/auth-jwt/pull/34))
-- Configure Renovate with the shared preset ([#35](https://github.com/AntelopeJS/auth-jwt/pull/35))
-- Land the cleanup campaign on main ([#64](https://github.com/AntelopeJS/auth-jwt/pull/64))
-
-### ❤️ Contributors
-
-- Antony Rizzitelli ([@Upd4ting](http://github.com/Upd4ting))
-
 ## v1.0.4
 
 [compare changes](https://github.com/AntelopeJS/auth-jwt/compare/v1.0.3...v1.0.4)
