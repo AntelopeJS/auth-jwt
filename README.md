@@ -9,6 +9,8 @@
 
 The AntelopeJS authentication module. It implements `@antelopejs/interface-auth` and signs and verifies its tokens as JSON Web Tokens with [`jsonwebtoken`](https://github.com/auth0/node-jsonwebtoken).
 
+Part of [AntelopeJS](https://github.com/AntelopeJS/antelopejs). Used by [AntelopeJS DMS](https://github.com/AntelopeJS/dms), the open-source back office for your PostgreSQL, MongoDB or RethinkDB database.
+
 ## Interfaces
 
 | Interface                                                                    | Documentation                                                    |
