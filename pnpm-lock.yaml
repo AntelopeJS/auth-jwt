@@ -4,10 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@antelopejs/interface-auth': file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz
-  '@antelopejs/core': file:.campaign/tgz/antelopejs-core-184eb90.tgz
-
 importers:
 
   .:
@@ -16,8 +12,8 @@ importers:
         specifier: '>=0.2.0 <1.0.0'
         version: 0.2.0(@antelopejs/interface-core@0.4.0)
       '@antelopejs/interface-auth':
-        specifier: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz
-        version: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz(@antelopejs/interface-api@0.2.0(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)
+        specifier: '>=0.2.0 <0.3.0'
+        version: 0.2.0(@antelopejs/interface-api@0.2.0(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)
       '@antelopejs/interface-core':
         specifier: '>=0.4.0 <1.0.0'
         version: 0.4.0
@@ -29,8 +25,8 @@ importers:
         version: 9.0.3
     devDependencies:
       '@antelopejs/core':
-        specifier: file:.campaign/tgz/antelopejs-core-184eb90.tgz
-        version: file:.campaign/tgz/antelopejs-core-184eb90.tgz
+        specifier: ^1.20.0
+        version: 1.20.0
       '@antelopejs/tooling-configs':
         specifier: ^0.2.17
         version: 0.2.17(eslint-plugin-perfectionist@5.11.0(eslint@10.10.0(jiti@2.7.0))(typescript@5.9.3))(knip@6.34.0)(oxfmt@0.66.0)(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))
@@ -86,8 +82,8 @@ importers:
         specifier: '>=0.2.0 <1.0.0'
         version: 0.2.0(@antelopejs/interface-core@0.4.0)
       '@antelopejs/interface-auth':
-        specifier: file:../.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz
-        version: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz(@antelopejs/interface-api@0.2.0(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)
+        specifier: '>=0.2.0 <1.0.0'
+        version: 0.2.0(@antelopejs/interface-api@0.2.0(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)
       '@antelopejs/interface-core':
         specifier: '>=0.4.0 <1.0.0'
         version: 0.4.0
@@ -104,9 +100,8 @@ importers:
 
 packages:
 
-  '@antelopejs/core@file:.campaign/tgz/antelopejs-core-184eb90.tgz':
-    resolution: {integrity: sha512-CsiXLalRIIxX5YHjMUVDlz0+zBGSeNjSNPdBTgHwVsWpT1bIeG8izJmbCgpi5tIs8rvxkdlEZ6eKa7yH1GK8CA==, tarball: file:.campaign/tgz/antelopejs-core-184eb90.tgz}
-    version: 1.20.0
+  '@antelopejs/core@1.20.0':
+    resolution: {integrity: sha512-7clqf/n8aUi4iCwMG0G2dWLQCwzy9ZxTLHLmOIEtfObw5wuN06s0+n57Zzjr3wbIyR2wD3Q4AeorqJ94QidIfg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -115,9 +110,8 @@ packages:
     peerDependencies:
       '@antelopejs/interface-core': '>=0.4.0 <1.0.0'
 
-  '@antelopejs/interface-auth@file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz':
-    resolution: {integrity: sha512-LL9u/2nMJdXj4bNiCngVNwIhe/GQ6b/h2t+PF/TZU+ObULFPbwDShfzOSv9MPqdVZ3fUSdQLP7XuDnljVAP5QA==, tarball: file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz}
-    version: 0.2.0
+  '@antelopejs/interface-auth@0.2.0':
+    resolution: {integrity: sha512-20CvI3B7HHFD+o9bydqGpppfPyP70dsrIcVztrM9otslW4VbsxwFFh31Ch1J9mRc/wxJdbxd/IHKaeqc52FHVQ==}
     peerDependencies:
       '@antelopejs/interface-api': '>=0.0.15 <1.0.0'
       '@antelopejs/interface-core': '>=0.2.4 <1.0.0'
@@ -2632,7 +2626,7 @@ packages:
 
 snapshots:
 
-  '@antelopejs/core@file:.campaign/tgz/antelopejs-core-184eb90.tgz':
+  '@antelopejs/core@1.20.0':
     dependencies:
       '@antelopejs/interface-core': 0.4.0
       '@clack/prompts': 1.8.1
@@ -2651,7 +2645,7 @@ snapshots:
     dependencies:
       '@antelopejs/interface-core': 0.4.0
 
-  '@antelopejs/interface-auth@file:.campaign/tgz/antelopejs-interface-auth-1dc3d6a.tgz(@antelopejs/interface-api@0.2.0(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)':
+  '@antelopejs/interface-auth@0.2.0(@antelopejs/interface-api@0.2.0(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)':
     dependencies:
       '@antelopejs/interface-api': 0.2.0(@antelopejs/interface-core@0.4.0)
       '@antelopejs/interface-core': 0.4.0
