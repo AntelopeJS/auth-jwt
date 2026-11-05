@@ -1,6 +1,6 @@
 # Feature map
 
-One file per feature. `covers:` lists the source globs it owns, `docs:` the pages a verdict judges, `journeys:` the journeys it runs, and `seeded-breaks/<feature>.patch` the break its journeys must catch. `pnpm exec antelopejs-verify map` checks that every user-facing file is covered.
+One file per feature. `covers:` lists the source globs it owns, `docs:` the pages a verdict judges, and `journeys:` the journeys it runs. `pnpm exec antelopejs-verify map` checks that every user-facing file is covered.
 
 The module keeps no state and calls no service, so no journey needs a container. Every journey runs the module in `ajs project dev` next to the API module from the registry (`@antelopejs/api` 1.2.4, the version the repository's own test project uses) and a small consumer that holds the README's two routes. The first run needs network access to fetch the API module. Tokens are taken apart and recomputed with `node:crypto` in `tokens.ts`, so the module never vouches for its own output.
 
