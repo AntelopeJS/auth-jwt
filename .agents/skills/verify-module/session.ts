@@ -23,7 +23,7 @@ export const OTHER_SECRET = "another-secret-the-module-does-not-hold";
 export const BASE_CONFIG: ModuleConfig = { secret: SECRET };
 
 const API_PACKAGE = "@antelopejs/api";
-const API_VERSION = "1.2.4";
+const API_VERSION = "2.0.0";
 const ROUTES_INTERFACES = ["@antelopejs/interface-core", "@antelopejs/interface-api", "@antelopejs/interface-auth"];
 
 export interface Session {
