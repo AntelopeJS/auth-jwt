@@ -1,6 +1,7 @@
 ---
 covers:
   - src/index.ts
+  - src/implementations/auth/index.ts
   - src/jwt.ts
 docs:
   - README.md
