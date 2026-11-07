@@ -2,7 +2,7 @@
 
 One file per feature. `covers:` lists the source globs it owns, `docs:` the pages a verdict judges, and `journeys:` the journeys it runs. `pnpm exec antelopejs-verify map` checks that every user-facing file is covered.
 
-The module keeps no state and calls no service, so no journey needs a container. Every journey runs the module in `ajs project dev` next to the API module from the registry (`@antelopejs/api` 2.0.0, which implements the `@antelopejs/interface-api` the consumer loads from this repository; 1.2.4 now resolves interface-api 0.3.0, so the consumer's routes answer 404) and a small consumer that holds the README's two routes. The first run needs network access to fetch the API module. Tokens are taken apart and recomputed with `node:crypto` in `tokens.ts`, so the module never vouches for its own output.
+The module keeps no state and calls no service, so no journey needs a container. Every journey runs the module in `ajs project dev` next to the API module from the registry (`@antelopejs/api` 2.0.0; with 1.2.4 every route of the consumer answers 404) and a small consumer that holds the README's two routes. The first run needs network access to fetch the API module. Tokens are taken apart and recomputed with `node:crypto` in `tokens.ts`, so the module never vouches for its own output.
 
 | Feature | What the user does | Journeys |
 |---|---|---|
