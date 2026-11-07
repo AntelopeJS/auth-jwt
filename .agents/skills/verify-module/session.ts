@@ -1,6 +1,7 @@
-import { mkdirSync, readFileSync, realpathSync, symlinkSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { createServer, type AddressInfo, type Server } from "node:net";
 import { join } from "node:path";
+import { setTimeout as sleep } from "node:timers/promises";
 
 import {
   equal,
@@ -24,6 +25,7 @@ export const BASE_CONFIG: ModuleConfig = { secret: SECRET };
 
 const API_PACKAGE = "@antelopejs/api";
 const API_VERSION = "2.0.0";
+const CACHE_WAIT_MS = 180_000;
 const ROUTES_INTERFACES = ["@antelopejs/interface-core", "@antelopejs/interface-api", "@antelopejs/interface-auth"];
 
 export interface Session {
@@ -50,8 +52,62 @@ function freePort(): Promise<number> {
   });
 }
 
+/** The ajs module cache every journey of a run shares, under the run's `work` so that `clean` removes it. */
+function runCache(context: JourneyContext): string {
+  return join(context.work, "..", "..", "ajs-cache");
+}
+
+function cacheHoldsApi(folder: string): boolean {
+  const file = join(folder, "manifest.json");
+  return existsSync(file) && pick(parseJson(readFileSync(file, "utf8")), API_PACKAGE) === API_VERSION;
+}
+
+/** Whether the process that wrote `lock` has exited, as when the harness exits on Ctrl+C without running the holder's release. */
+function holderGone(lock: string, holder: string): boolean {
+  const pid = Number(holder);
+  if (!Number.isSafeInteger(pid) || pid <= 0) return false;
+  try {
+    process.kill(pid, 0);
+    return false;
+  } catch (error) {
+    return error instanceof Error && "code" in error && error.code === "ESRCH" && readLock(lock) === holder;
+  }
+}
+
+function readLock(lock: string): string {
+  try {
+    return readFileSync(lock, "utf8");
+  } catch {
+    return "";
+  }
+}
+
+/**
+ * Picks the cache folder of one journey's project and returns it with the release to call once the app has loaded.
+ * ajs deletes a module folder before it installs it, so only one journey at a time may install into the run's cache: the lock file holds its PID, and the others wait until ajs records the pinned API version, which it does after the install succeeds, or until the holder has exited.
+ * A journey that waits longer than `CACHE_WAIT_MS` installs into a folder of its own instead.
+ */
+async function claimCache(context: JourneyContext): Promise<{ folder: string; release: () => void }> {
+  const folder = runCache(context);
+  const lock = `${folder}.lock`;
+  const deadline = Date.now() + CACHE_WAIT_MS;
+  while (Date.now() < deadline) {
+    if (cacheHoldsApi(folder)) return { folder, release: () => {} };
+    try {
+      writeFileSync(lock, String(process.pid), { flag: "wx" });
+      return { folder, release: () => rmSync(lock, { force: true }) };
+    } catch (error) {
+      if (!existsSync(lock)) throw error;
+    }
+    const holder = readLock(lock);
+    if (holderGone(lock, holder)) rmSync(lock, { force: true });
+    else await sleep(250);
+  }
+  return { folder: join(context.work, "ajs-cache"), release: () => {} };
+}
+
 /** Adds the API module from the registry and the routes consumer to the fixture project, the way the README tells a user to install them. */
-function addApiAndRoutes(context: JourneyContext, project: string, port: number): void {
+function addApiAndRoutes(context: JourneyContext, project: string, port: number, cacheFolder: string): void {
   const file = join(project, "antelope.config.ts");
   const prefix = "export default ";
   const config = recordOf(parseJson(readFileSync(file, "utf8").trim().slice(prefix.length).replace(/;$/, "")));
@@ -64,7 +120,7 @@ function addApiAndRoutes(context: JourneyContext, project: string, port: number)
     source: { type: "package", package: API_PACKAGE, version: API_VERSION },
     config: { servers: [{ protocol: "http", host: "127.0.0.1", port }] },
   };
-  const extended = { ...config, modules: { ...recordOf(config.modules), api, "verify-routes": { source: { type: "local", path: "./routes" } } } };
+  const extended = { ...config, cacheFolder, modules: { ...recordOf(config.modules), api, "verify-routes": { source: { type: "local", path: "./routes" } } } };
   context.edit("add the API module and the routes consumer", file, `${prefix}${JSON.stringify(extended, null, 2)};\n`);
 }
 
@@ -76,21 +132,33 @@ export async function withModule(
 ): Promise<void> {
   const port = await freePort();
   const project = context.fixture({ moduleConfig });
-  addApiAndRoutes(context, project, port);
-  const app = await context.dev("ajs project dev", project);
+  const cache = await claimCache(context);
+  let app: App;
+  try {
+    addApiAndRoutes(context, project, port, cache.folder);
+    app = await context.dev("ajs project dev", project);
+  } finally {
+    cache.release();
+  }
   await run({ context, app, base: `http://127.0.0.1:${port}` });
 }
 
 /** Runs `ajs project dev` on a project whose module config the module refuses, and returns how the process ended. */
 export async function startRefused(context: JourneyContext, name: string, moduleConfig: ModuleConfig): Promise<CommandResult> {
   const project = context.fixture({ moduleConfig });
-  addApiAndRoutes(context, project, await freePort());
-  const manifest = parseJson(readFileSync(join(context.repo, "node_modules/@antelopejs/core/package.json"), "utf8"));
-  const bin = pick(manifest, "bin", "ajs");
-  return context.command(name, process.execPath, [join(context.repo, "node_modules/@antelopejs/core", isString(bin) ? bin : ""), "project", "dev"], {
-    cwd: project,
-    timeoutMs: 120_000,
-  });
+  const port = await freePort();
+  const cache = await claimCache(context);
+  try {
+    addApiAndRoutes(context, project, port, cache.folder);
+    const manifest = parseJson(readFileSync(join(context.repo, "node_modules/@antelopejs/core/package.json"), "utf8"));
+    const bin = pick(manifest, "bin", "ajs");
+    return await context.command(name, process.execPath, [join(context.repo, "node_modules/@antelopejs/core", isString(bin) ? bin : ""), "project", "dev"], {
+      cwd: project,
+      timeoutMs: 120_000,
+    });
+  } finally {
+    cache.release();
+  }
 }
 
 function callAuth(session: Session, name: string, path: string, args: Json[]): Promise<CallResult> {
