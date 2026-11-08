@@ -7,6 +7,7 @@ import type {
   JsonValue,
 } from "@antelopejs/interface-auth";
 import {
+  decode,
   type SignOptions,
   sign,
   type VerifyOptions,
@@ -18,6 +19,7 @@ const UnauthorizedStatusCode = 401;
 const UnauthorizedMessage = "Unauthorized";
 const ForbiddenMessagePrefix = "Forbidden";
 const JWTSignFailureMessage = "Unable to sign JWT";
+const NotJsonObjectMessage = `${ForbiddenMessagePrefix} (the payload is not a JSON object)`;
 
 export interface JWTHandlerConfig {
   secret?: string;
@@ -172,6 +174,12 @@ export class JWTHandler {
       );
     }
 
+    if (decode(data, { complete: true })?.payload === null) {
+      return Promise.reject(
+        new HTTPResult(ForbiddenStatusCode, NotJsonObjectMessage),
+      );
+    }
+
     return new Promise((resolve, reject) => {
       verify(
         data,
@@ -189,12 +197,7 @@ export class JWTHandler {
           }
 
           if (!isAuthClaims(payload)) {
-            reject(
-              new HTTPResult(
-                ForbiddenStatusCode,
-                `${ForbiddenMessagePrefix} (the payload is not a JSON object)`,
-              ),
-            );
+            reject(new HTTPResult(ForbiddenStatusCode, NotJsonObjectMessage));
             return;
           }
 

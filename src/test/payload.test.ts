@@ -58,6 +58,15 @@ describe("JWTHandler.verify payloads", () => {
     );
   });
 
+  it("answers 403 for a validly signed JSON null payload", async () => {
+    const token = signRaw("null");
+
+    await assert.rejects(
+      handler.verify(token),
+      assertForbidden("Forbidden (the payload is not a JSON object)"),
+    );
+  });
+
   it("answers 403 for a token signed with another secret", async () => {
     const token = await new JWTHandler({ secret: "other-secret" }).sign({
       userId: 1,
