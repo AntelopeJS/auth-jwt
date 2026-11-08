@@ -73,12 +73,12 @@ config: {
 | Key             | Description                                                                                                                                                                                                                         |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `secret`        | Shared secret that signs and verifies tokens. Takes precedence over `signKey` and `verifyKey`.                                                                                                                                      |
-| `signKey`       | Path of the private key file. The module uses it with `verifyKey` when `secret` is not set.                                                                                                                                         |
+| `signKey`       | Path of the private key file. The module uses it with `verifyKey` when `secret` is empty or not set.                                                                                                                                |
 | `verifyKey`     | Path of the public key file.                                                                                                                                                                                                        |
 | `signOptions`   | Default [`jsonwebtoken` sign options](https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback). The `expiresIn` and `notBefore` that `SignRaw` or `SignServerResponse` receive override them. |
 | `verifyOptions` | Default [`jsonwebtoken` verify options](https://github.com/auth0/node-jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback). Options passed to `ValidateRaw` override them.                                               |
 
-The module refuses to start without `secret` or both `signKey` and `verifyKey`, and throws `Invalid JWT config`. `ajs project modules add` writes `secret: "your-secret-key"`. Replace it before you deploy.
+The module refuses to start without a non-empty `secret` or both `signKey` and `verifyKey`, and throws `Invalid JWT config`. An empty string counts as not set. `ajs project modules add` writes `secret: "your-secret-key"`. Replace it before you deploy.
 
 ## Quick start
 
