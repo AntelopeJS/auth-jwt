@@ -7,6 +7,7 @@ import type {
   JsonValue,
 } from "@antelopejs/interface-auth";
 import {
+  decode,
   type SignOptions,
   sign,
   type VerifyOptions,
@@ -18,6 +19,7 @@ const UnauthorizedStatusCode = 401;
 const UnauthorizedMessage = "Unauthorized";
 const ForbiddenMessagePrefix = "Forbidden";
 const JWTSignFailureMessage = "Unable to sign JWT";
+const NotJsonObjectMessage = `${ForbiddenMessagePrefix} (the payload is not a JSON object)`;
 
 export interface JWTHandlerConfig {
   secret?: string;
@@ -58,6 +60,19 @@ function isJsonObject(value: unknown): value is JsonObject {
  */
 function isAuthClaims(payload: unknown): payload is AuthClaims {
   return typeof payload === "string" || isJsonObject(payload);
+}
+
+/**
+ * jsonwebtoken reads `payload.nbf` on a JSON null payload and throws instead of
+ * calling back, so such a token is refused before it reaches `verify`. A token
+ * that does not decode is left to `verify`, which reports it as a 403.
+ */
+function hasNullPayload(token: string): boolean {
+  try {
+    return decode(token, { complete: true })?.payload === null;
+  } catch {
+    return false;
+  }
 }
 
 interface ResolvedJWTHandlerConfig {
@@ -174,6 +189,12 @@ export class JWTHandler {
       );
     }
 
+    if (hasNullPayload(data)) {
+      return Promise.reject(
+        new HTTPResult(ForbiddenStatusCode, NotJsonObjectMessage),
+      );
+    }
+
     return new Promise((resolve, reject) => {
       verify(
         data,
@@ -191,12 +212,7 @@ export class JWTHandler {
           }
 
           if (!isAuthClaims(payload)) {
-            reject(
-              new HTTPResult(
-                ForbiddenStatusCode,
-                `${ForbiddenMessagePrefix} (the payload is not a JSON object)`,
-              ),
-            );
+            reject(new HTTPResult(ForbiddenStatusCode, NotJsonObjectMessage));
             return;
           }
 
