@@ -68,18 +68,20 @@ interface ResolvedJWTHandlerConfig {
   verifyOptions: VerifyOptions;
 }
 
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === "string" && value !== "";
+}
+
 function hasSecret(
   config: JWTHandlerConfig,
 ): config is JWTHandlerConfig & { secret: string } {
-  return typeof config.secret === "string";
+  return isNonEmptyString(config.secret);
 }
 
 function hasSignAndVerifyKeys(
   config: JWTHandlerConfig,
 ): config is JWTHandlerConfig & { signKey: string; verifyKey: string } {
-  return (
-    typeof config.signKey === "string" && typeof config.verifyKey === "string"
-  );
+  return isNonEmptyString(config.signKey) && isNonEmptyString(config.verifyKey);
 }
 
 function resolveJWTHandlerConfig(
