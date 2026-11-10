@@ -34,13 +34,15 @@ describe("JWTHandler.verify payloads", () => {
   const handler = new JWTHandler({ secret: SECRET });
 
   it("resolves the claims object of a token it signed", async () => {
-    const token = await handler.sign({ userId: 123, role: "admin" });
+    const token = await handler.sign(
+      { userId: 123, role: "admin" },
+      { noTimestamp: true },
+    );
 
-    const claims = await handler.verify(token);
-
-    assert.ok(claims instanceof Object);
-    assert.strictEqual(claims["userId"], 123);
-    assert.strictEqual(claims["role"], "admin");
+    assert.deepStrictEqual(await handler.verify(token), {
+      userId: 123,
+      role: "admin",
+    });
   });
 
   it("resolves a string payload as the string", async () => {
