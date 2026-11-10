@@ -1,5 +1,40 @@
 # Changelog
 
+## v1.1.1
+
+[compare changes](https://github.com/AntelopeJS/auth-jwt/compare/v1.1.0...v1.1.1)
+
+### 🔥 Performance
+
+- **jwt:** Resolve key material to a KeyObject once ([#78](https://github.com/AntelopeJS/auth-jwt/pull/78))
+
+### 🩹 Fixes
+
+- **verify:** Run the journeys against @antelopejs/api 2.0.0 ([#70](https://github.com/AntelopeJS/auth-jwt/pull/70))
+- **verify:** Cover every source file the journeys run through ([#71](https://github.com/AntelopeJS/auth-jwt/pull/71))
+- **jwt:** Reject an empty secret or key path in the config check ([#73](https://github.com/AntelopeJS/auth-jwt/pull/73))
+- **verify:** Answer 403 for a signed token whose payload is JSON null ([#74](https://github.com/AntelopeJS/auth-jwt/pull/74))
+
+### 📦 Build
+
+- **deps:** Bump @antelopejs packages to the 2026-11-06 releases ([#69](https://github.com/AntelopeJS/auth-jwt/pull/69))
+- **deps:** Bump @antelopejs/tooling-configs to 0.4.0 ([#75](https://github.com/AntelopeJS/auth-jwt/pull/75))
+- **deps:** Bump @antelopejs/tooling-configs to 0.5.0 ([#76](https://github.com/AntelopeJS/auth-jwt/pull/76))
+- **deps:** Bump @antelopejs/tooling-configs to 0.5.1 ([#77](https://github.com/AntelopeJS/auth-jwt/pull/77))
+
+### 🏡 Chore
+
+- **verify:** Remove seeded runs from the verification skill ([#66](https://github.com/AntelopeJS/auth-jwt/pull/66))
+- **ci:** Remove the weekly mutation caller ([#67](https://github.com/AntelopeJS/auth-jwt/pull/67))
+
+### 🤖 CI
+
+- Call ci-node.yml@v1 ([#68](https://github.com/AntelopeJS/auth-jwt/pull/68))
+
+### ❤️ Contributors
+
+- Antony Rizzitelli ([@Upd4ting](http://github.com/Upd4ting))
+
 ## v1.1.0
 
 [compare changes](https://github.com/AntelopeJS/auth-jwt/compare/v1.0.4...v1.1.0)
