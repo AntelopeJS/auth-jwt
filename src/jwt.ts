@@ -1,3 +1,9 @@
+import {
+  createPrivateKey,
+  createPublicKey,
+  createSecretKey,
+  type KeyObject,
+} from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { HTTPResult } from "@antelopejs/interface-api";
 import type {
@@ -150,33 +156,54 @@ function mergeVerifyOptions(
   return { ...baseOptions, ...overrideOptions };
 }
 
+/**
+ * jsonwebtoken resolves string or Buffer key material the same way on every
+ * call: it tries an asymmetric key, then falls back to a secret. Resolving it
+ * once here spares each sign and verify the failed parse.
+ */
+function signingKey(material: string | Buffer): KeyObject {
+  try {
+    return createPrivateKey(material);
+  } catch {
+    return createSecretKey(Buffer.from(material));
+  }
+}
+
+function verificationKey(material: string | Buffer): KeyObject {
+  try {
+    return createPublicKey(material);
+  } catch {
+    return createSecretKey(Buffer.from(material));
+  }
+}
+
 export class JWTHandler {
-  private loadFromDisk: boolean;
-  private signKey: string | Buffer;
-  private verifyKey: string | Buffer;
+  private keyFiles: { signKey: string; verifyKey: string } | undefined;
+  private signKey: KeyObject;
+  private verifyKey: KeyObject;
   private signOptions: SignOptions;
   private verifyOptions: VerifyOptions;
 
   constructor(config: JWTHandlerConfig) {
     const resolvedConfig = resolveJWTHandlerConfig(config);
-    this.loadFromDisk = resolvedConfig.loadFromDisk;
-    this.signKey = resolvedConfig.signKey;
-    this.verifyKey = resolvedConfig.verifyKey;
+    this.keyFiles = resolvedConfig.loadFromDisk ? resolvedConfig : undefined;
+    this.signKey = signingKey(resolvedConfig.signKey);
+    this.verifyKey = verificationKey(resolvedConfig.verifyKey);
     this.signOptions = resolvedConfig.signOptions;
     this.verifyOptions = resolvedConfig.verifyOptions;
   }
 
   async loadKeys(): Promise<void> {
-    if (!this.loadFromDisk) {
+    if (!this.keyFiles) {
       return;
     }
 
     const [loadedSignKey, loadedVerifyKey] = await Promise.all([
-      readFile(this.signKey),
-      readFile(this.verifyKey),
+      readFile(this.keyFiles.signKey),
+      readFile(this.keyFiles.verifyKey),
     ]);
-    this.signKey = loadedSignKey;
-    this.verifyKey = loadedVerifyKey;
+    this.signKey = signingKey(loadedSignKey);
+    this.verifyKey = verificationKey(loadedVerifyKey);
   }
 
   verify(
