@@ -1,0 +1,18 @@
+name: Modules update
+
+on:
+  schedule:
+    - cron: "23 5 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  modules-update:
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    uses: AntelopeJS/.github/.github/workflows/modules-update.yml@v1
+    with:
+      refresh-command: rm -rf antelope-lock && pnpm run test
