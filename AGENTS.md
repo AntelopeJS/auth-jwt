@@ -18,7 +18,7 @@ The AntelopeJS module that implements `@antelopejs/interface-auth` with `jsonweb
 ## Tests
 
 - `pnpm test` builds `dist`, then runs `ajs module test`. `src/test/antelope.test.ts` (`antelopeJs.test` in `package.json`) describes the test project: this module with a test secret, plus `@antelopejs/api` from npm at a pinned version on `127.0.0.1:5010`, so that port must be free.
-- `antelope-lock/` records the lockfile `@antelopejs/api` installed with, and `ajs module test` installs from it, so every run tests the same dependencies. Commit what `pnpm test` records there. `.github/workflows/modules-update.yml` refreshes it every Monday with `rm -rf antelope-lock && pnpm run test`; do the same by hand when you change the pinned version.
+- `antelope-lock/` records the lockfile `@antelopejs/api` installed with, and `ajs module test` installs from it, so every run tests the same dependencies. Commit what `pnpm test` records there. `.github/workflows/modules-update.yml` runs daily and refreshes it with `rm -rf antelope-lock && pnpm run test` on Mondays, the shared workflow's default `weekday`, or on any day a new advisory hits a locked package; do the same by hand when you change the pinned version.
 - The test suites are not in this repository. They ship compiled in `@antelopejs/interface-auth` (`dist/tests`) and `require("chai")` from this module's `node_modules`, so `chai` stays in `package.json` although no source file imports it.
 - `pnpm run checks` does not build or run the playground. Run it with `pnpm dev`.
 
