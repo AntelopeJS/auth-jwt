@@ -1,5 +1,29 @@
 # Changelog
 
+## v1.1.2
+
+[compare changes](https://github.com/AntelopeJS/auth-jwt/compare/v1.1.1...v1.1.2)
+
+### 🩹 Fixes
+
+- **test:** Commit the module lock the test project records ([#80](https://github.com/AntelopeJS/auth-jwt/pull/80))
+
+### 📖 Documentation
+
+- **readme:** Adopt the AntelopeJS framework README style ([#79](https://github.com/AntelopeJS/auth-jwt/pull/79))
+
+### 📦 Build
+
+- **deps:** Cap @antelopejs ranges below the next minor ([#82](https://github.com/AntelopeJS/auth-jwt/pull/82))
+
+### 🤖 CI
+
+- Run the check and test jobs on Windows beside Linux ([#81](https://github.com/AntelopeJS/auth-jwt/pull/81))
+
+### ❤️ Contributors
+
+- Antony Rizzitelli ([@Upd4ting](http://github.com/Upd4ting))
+
 ## v1.1.1
 
 [compare changes](https://github.com/AntelopeJS/auth-jwt/compare/v1.1.0...v1.1.1)
