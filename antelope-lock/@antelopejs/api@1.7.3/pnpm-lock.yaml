@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@antelopejs/interface-api':
         specifier: '>=0.2.0 <0.4.0'
-        version: 0.3.2(@antelopejs/interface-core@0.5.1)
+        version: 0.3.3(@antelopejs/interface-core@0.5.1)
       '@antelopejs/interface-api-util':
         specifier: '>=0.3.0 <1.0.0'
-        version: 0.3.2(@antelopejs/interface-api@0.3.2(@antelopejs/interface-core@0.5.1))(@antelopejs/interface-core@0.5.1)
+        version: 0.3.2(@antelopejs/interface-api@0.3.3(@antelopejs/interface-core@0.5.1))(@antelopejs/interface-core@0.5.1)
       '@antelopejs/interface-core':
         specifier: '>=0.4.0 <1.0.0'
         version: 0.5.1
@@ -26,7 +26,7 @@ importers:
     devDependencies:
       '@antelopejs/core':
         specifier: ^1.21.0
-        version: 1.23.0
+        version: 1.23.1
       '@antelopejs/tooling-configs':
         specifier: ^0.5.1
         version: 0.5.8(eslint-plugin-perfectionist@5.13.0(eslint@10.15.0(jiti@2.7.0))(typescript@5.9.3))(knip@6.45.1)(oxfmt@0.66.0)(oxlint@1.81.0(oxlint-tsgolint@7.0.2007))
@@ -78,8 +78,8 @@ importers:
 
 packages:
 
-  '@antelopejs/core@1.23.0':
-    resolution: {integrity: sha512-RZvKjGqY8UntJxBNXtoYSSQwQxvM+WUgWfwB/YbQVk7K7GFugDCj3zyoLWmWyQDg48lwNbfrLDAMGvQ4OFy1Jg==}
+  '@antelopejs/core@1.23.1':
+    resolution: {integrity: sha512-0hTjFw5vHNwwTE6HYCvEHErKkJR9MiehE1UmY3P1M0LEky5j+TPWYcf7+Qtzp9U6ErYb+cRljHCzRaBu2pEbIw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -89,10 +89,10 @@ packages:
       '@antelopejs/interface-api': '>=0.3.0 <1.0.0'
       '@antelopejs/interface-core': '>=0.2.4 <1.0.0'
 
-  '@antelopejs/interface-api@0.3.2':
-    resolution: {integrity: sha512-UTow4Rv07zV7gVGEpzYn1OgtIqEFezxU6G2XFl1kDnC2wn+FahPr+LDtdl9QgosyJPKdO1fOMGu8SSn35S/B0A==}
+  '@antelopejs/interface-api@0.3.3':
+    resolution: {integrity: sha512-jcsbhW5sO56ZFGBvHPy8/bmIw9BPS/lxBPF4Pyv3YwY9/VaFXGZVI3N+TjgJAHOwnjW8gRuASfqaTDYaFM/ldQ==}
     peerDependencies:
-      '@antelopejs/interface-core': '>=0.4.0 <1.0.0'
+      '@antelopejs/interface-core': '>=0.5.1 <0.6.0'
 
   '@antelopejs/interface-core@0.5.1':
     resolution: {integrity: sha512-ON/7TYA1yyT8UznzKi6vnwyjRU3byNE0OcFXBmf8dE/dqp8hKjeWHVyA2EUPOngmEimCLw4idZqOS5DJqMJx3g==}
@@ -2530,7 +2530,7 @@ packages:
 
 snapshots:
 
-  '@antelopejs/core@1.23.0':
+  '@antelopejs/core@1.23.1':
     dependencies:
       '@antelopejs/interface-core': 0.5.1
       '@clack/prompts': 1.9.0
@@ -2545,12 +2545,12 @@ snapshots:
       semver: 7.8.6
       typescript: 5.9.3
 
-  '@antelopejs/interface-api-util@0.3.2(@antelopejs/interface-api@0.3.2(@antelopejs/interface-core@0.5.1))(@antelopejs/interface-core@0.5.1)':
+  '@antelopejs/interface-api-util@0.3.2(@antelopejs/interface-api@0.3.3(@antelopejs/interface-core@0.5.1))(@antelopejs/interface-core@0.5.1)':
     dependencies:
-      '@antelopejs/interface-api': 0.3.2(@antelopejs/interface-core@0.5.1)
+      '@antelopejs/interface-api': 0.3.3(@antelopejs/interface-core@0.5.1)
       '@antelopejs/interface-core': 0.5.1
 
-  '@antelopejs/interface-api@0.3.2(@antelopejs/interface-core@0.5.1)':
+  '@antelopejs/interface-api@0.3.3(@antelopejs/interface-core@0.5.1)':
     dependencies:
       '@antelopejs/interface-core': 0.5.1
 
