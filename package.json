@@ -50,12 +50,12 @@
   "dependencies": {
     "@antelopejs/interface-api": ">=0.3.0 <0.4.0",
     "@antelopejs/interface-auth": ">=0.2.0 <0.3.0",
-    "@antelopejs/interface-core": ">=0.4.0 <0.5.0",
+    "@antelopejs/interface-core": ">=0.5.1 <0.6.0",
     "chai": "^4.5.0",
     "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
-    "@antelopejs/core": "~1.21.0",
+    "@antelopejs/core": "~1.23.0",
     "@antelopejs/tooling-configs": ">=0.6.0 <0.7.0",
     "@types/chai": "^4.3.20",
     "@types/jsonwebtoken": "^9.0.10",

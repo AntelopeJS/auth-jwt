@@ -10,13 +10,13 @@ importers:
     dependencies:
       '@antelopejs/interface-api':
         specifier: '>=0.3.0 <0.4.0'
-        version: 0.3.2(@antelopejs/interface-core@0.4.0)
+        version: 0.3.2(@antelopejs/interface-core@0.5.1)
       '@antelopejs/interface-auth':
         specifier: '>=0.2.0 <0.3.0'
-        version: 0.2.0(@antelopejs/interface-api@0.3.2(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)
+        version: 0.2.0(@antelopejs/interface-api@0.3.2(@antelopejs/interface-core@0.5.1))(@antelopejs/interface-core@0.5.1)
       '@antelopejs/interface-core':
-        specifier: '>=0.4.0 <0.5.0'
-        version: 0.4.0
+        specifier: '>=0.5.1 <0.6.0'
+        version: 0.5.1
       chai:
         specifier: ^4.5.0
         version: 4.5.0
@@ -25,8 +25,8 @@ importers:
         version: 9.0.3
     devDependencies:
       '@antelopejs/core':
-        specifier: ~1.21.0
-        version: 1.21.0
+        specifier: ~1.23.0
+        version: 1.23.0
       '@antelopejs/tooling-configs':
         specifier: '>=0.6.0 <0.7.0'
         version: 0.6.0(eslint-plugin-perfectionist@5.11.0(eslint@10.10.0(jiti@2.7.0))(typescript@5.9.3))(knip@6.34.0)(oxfmt@0.66.0)(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))
@@ -80,13 +80,13 @@ importers:
     dependencies:
       '@antelopejs/interface-api':
         specifier: '>=0.3.0 <0.4.0'
-        version: 0.3.2(@antelopejs/interface-core@0.4.0)
+        version: 0.3.2(@antelopejs/interface-core@0.5.1)
       '@antelopejs/interface-auth':
         specifier: '>=0.2.0 <0.3.0'
-        version: 0.2.0(@antelopejs/interface-api@0.3.2(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)
+        version: 0.2.0(@antelopejs/interface-api@0.3.2(@antelopejs/interface-core@0.5.1))(@antelopejs/interface-core@0.5.1)
       '@antelopejs/interface-core':
-        specifier: '>=0.4.0 <0.5.0'
-        version: 0.4.0
+        specifier: '>=0.5.1 <0.6.0'
+        version: 0.5.1
     devDependencies:
       '@types/node':
         specifier: ^20.5.7
@@ -100,8 +100,8 @@ importers:
 
 packages:
 
-  '@antelopejs/core@1.21.0':
-    resolution: {integrity: sha512-0+qxASgc1sF8MihvGYfrAy6m3XTPcrFJeeIH69ivI0cvtYmj71cjzTeXdKghBZb4ndTMQ2IXeKbK6zxrG2w4Tw==}
+  '@antelopejs/core@1.23.0':
+    resolution: {integrity: sha512-RZvKjGqY8UntJxBNXtoYSSQwQxvM+WUgWfwB/YbQVk7K7GFugDCj3zyoLWmWyQDg48lwNbfrLDAMGvQ4OFy1Jg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -116,8 +116,8 @@ packages:
       '@antelopejs/interface-api': '>=0.0.15 <1.0.0'
       '@antelopejs/interface-core': '>=0.2.4 <1.0.0'
 
-  '@antelopejs/interface-core@0.4.0':
-    resolution: {integrity: sha512-IPX6dtt3KHknclN4mLOYeRYL2Odz1Pts+dtaZul62NghsBUX/0OFHD4Qhoaf+Beva4hjInbaF918ajr4Z5HVWQ==}
+  '@antelopejs/interface-core@0.5.1':
+    resolution: {integrity: sha512-ON/7TYA1yyT8UznzKi6vnwyjRU3byNE0OcFXBmf8dE/dqp8hKjeWHVyA2EUPOngmEimCLw4idZqOS5DJqMJx3g==}
 
   '@antelopejs/tooling-configs@0.6.0':
     resolution: {integrity: sha512-DtGbS8grU8KKoB/HcvxKfwQy2AqQh7OUF2it85zf4czzZPodgdsw1/Ajj4onJvOYygqNgcd7D7EdDFtmY7FuDA==}
@@ -2606,9 +2606,9 @@ packages:
 
 snapshots:
 
-  '@antelopejs/core@1.21.0':
+  '@antelopejs/core@1.23.0':
     dependencies:
-      '@antelopejs/interface-core': 0.4.0
+      '@antelopejs/interface-core': 0.5.1
       '@clack/prompts': 1.8.1
       '@types/proper-lockfile': 4.1.4
       commander: 13.1.0
@@ -2618,19 +2618,19 @@ snapshots:
       picocolors: 1.1.1
       proper-lockfile: 4.1.2
       reflect-metadata: 0.2.2
-      semver: 7.7.4
+      semver: 7.8.6
       typescript: 5.9.3
 
-  '@antelopejs/interface-api@0.3.2(@antelopejs/interface-core@0.4.0)':
+  '@antelopejs/interface-api@0.3.2(@antelopejs/interface-core@0.5.1)':
     dependencies:
-      '@antelopejs/interface-core': 0.4.0
+      '@antelopejs/interface-core': 0.5.1
 
-  '@antelopejs/interface-auth@0.2.0(@antelopejs/interface-api@0.3.2(@antelopejs/interface-core@0.4.0))(@antelopejs/interface-core@0.4.0)':
+  '@antelopejs/interface-auth@0.2.0(@antelopejs/interface-api@0.3.2(@antelopejs/interface-core@0.5.1))(@antelopejs/interface-core@0.5.1)':
     dependencies:
-      '@antelopejs/interface-api': 0.3.2(@antelopejs/interface-core@0.4.0)
-      '@antelopejs/interface-core': 0.4.0
+      '@antelopejs/interface-api': 0.3.2(@antelopejs/interface-core@0.5.1)
+      '@antelopejs/interface-core': 0.5.1
 
-  '@antelopejs/interface-core@0.4.0':
+  '@antelopejs/interface-core@0.5.1':
     dependencies:
       reflect-metadata: 0.2.2
 

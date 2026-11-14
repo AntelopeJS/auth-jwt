@@ -11,7 +11,7 @@ The AntelopeJS module that implements `@antelopejs/interface-auth` with `jsonweb
 
 ## Versioning
 
-- Every `@antelopejs/*` range stops below the next minor of its floor: `>=0.2.0 <0.3.0` on a 0.x package, `~1.21.0` on a 1.x one. A 0.x minor can break the contract, so moving to one means updating the code and raising both bounds together. The `dependency:ranges` step of `pnpm run checks` checks every range in the repository.
+- Every `@antelopejs/*` range sits on the newest published minor and stops below the next one: `>=0.5.1 <0.6.0` on a 0.x package, `~1.23.0` on a 1.x one. A 0.x minor can break the contract, so moving to one means updating the code and raising both bounds together. The `dependency:ranges` step of `pnpm run checks` checks every range in the repository.
 - When you raise a minimum, update the Compatibility table in `README.md` too.
 
 ## Tests
