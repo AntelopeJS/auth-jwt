@@ -139,7 +139,7 @@ export class SessionController extends Controller("/session") {
 
 | Package                      | Supported        | Tested with |
 | ---------------------------- | ---------------- | ----------- |
-| `@antelopejs/interface-api`  | `>=0.2.0 <0.3.0` | `0.2.0`     |
+| `@antelopejs/interface-api`  | `>=0.3.0 <0.4.0` | `0.3.2`     |
 | `@antelopejs/interface-auth` | `>=0.2.0 <0.3.0` | `0.2.0`     |
 | `@antelopejs/interface-core` | `>=0.4.0 <0.5.0` | `0.4.0`     |
 
