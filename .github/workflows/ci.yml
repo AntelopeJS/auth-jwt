@@ -29,4 +29,5 @@ jobs:
     permissions:
       contents: write
       actions: write
+      statuses: write
     uses: AntelopeJS/.github/.github/workflows/ci-renovate-sync.yml@v2
