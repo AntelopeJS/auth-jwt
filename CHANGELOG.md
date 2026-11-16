@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.1.3
+
+[compare changes](https://github.com/AntelopeJS/auth-jwt/compare/v1.1.2...v1.1.3)
+
+### 🩹 Fixes
+
+- **deps:** Depend on the stable @antelopejs/tooling-configs
+
+### 📦 Build
+
+- Move to @antelopejs/tooling-configs 0.8 and the three-tier CI ([#85](https://github.com/AntelopeJS/auth-jwt/pull/85))
+
+### 🤖 CI
+
+- Remove the nightly modules-update workflow ([#84](https://github.com/AntelopeJS/auth-jwt/pull/84))
+- Allow starting next-sync by hand ([#88](https://github.com/AntelopeJS/auth-jwt/pull/88))
+
+### ❤️ Contributors
+
+- Antony Rizzitelli
+
 ## v1.1.2
 
 [compare changes](https://github.com/AntelopeJS/auth-jwt/compare/v1.1.1...v1.1.2)
