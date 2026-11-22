@@ -24,6 +24,17 @@ jobs:
         playground/README.md
       renovate-sync: false
       test-job: true
+      module-locks: true
+  module-locks:
+    needs: ci
+    if: ${{ !cancelled() }}
+    permissions:
+      contents: read
+      actions: read
+    uses: AntelopeJS/.github/.github/workflows/module-locks-renovate.yml@v2
+    secrets:
+      RELEASE_APP_ID: ${{ secrets.RELEASE_APP_ID }}
+      RELEASE_APP_PRIVATE_KEY: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
   renovate-sync:
     if: >-
       github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/') && github.event.pull_request.head.repo.full_name == github.repository
