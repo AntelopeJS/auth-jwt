@@ -17,8 +17,7 @@ jobs:
       contents: read
     uses: AntelopeJS/.github/.github/workflows/module-locks-refresh.yml@v2
     with:
-      projects: |
-        playground
+      projects: ""
       commands: |
         rm -rf antelope-lock
         pnpm run test
