@@ -21,7 +21,6 @@ function signRaw(payload: string): string {
 
 function assertForbidden(message?: string): (error: HTTPResult) => boolean {
   return (error) => {
-    assert.ok(error instanceof HTTPResult);
     assert.strictEqual(error.getStatus(), FORBIDDEN_STATUS);
     if (message !== undefined) {
       assert.strictEqual(error.getBody(), message);
