@@ -26,11 +26,7 @@ The AntelopeJS module that implements `@antelopejs/interface-auth` with `jsonweb
 
 ## Guardrails
 
-CI runs `pnpm run checks` in full on every pull request and reports what failed. The commit hook formats and lints the staged files. Locally, run only the fast check for what you touched:
-
-- `pnpm run typecheck` after you change types or signatures.
-- `pnpm exec oxlint <files>` and `pnpm exec oxfmt <files>` on the files you changed.
-- One test file, not the suite. In a module that tests with `ajs module test`: `pnpm run build`, then `pnpm exec ajs module test . -f dist/<path>.test.js`.
+CI runs `pnpm run checks` in full on every pull request and reports what failed. The commit hook formats and lints the staged files. Locally, check only what you touched, one test file and not the suite, as the [`verify-changes`](.agents/skills/verify-changes/SKILL.md) skill says.
 
 ### Comments
 
